@@ -1,0 +1,2 @@
+﻿  SModel.c
+C:\Users\alstj\OneDrive\3학년_2학기\컴퓨터그래픽스\graphic\SModel.c(4,10): fatal error C1083: 포함 파일을 열 수 없습니다. 'GL/glut.h': No such file or directory
