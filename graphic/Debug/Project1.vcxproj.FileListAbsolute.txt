@@ -1,3 +1,0 @@
-C:\Users\alstj\Documents\GitHub\Project1\Debug\Project1.exe
-C:\Users\alstj\Documents\GitHub\graphic\Debug\opengl.exe
-C:\Users\alstj\Documents\GitHub\OpenGL\graphic\Debug\opengl.exe
