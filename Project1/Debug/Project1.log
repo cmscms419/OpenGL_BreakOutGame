@@ -1,2 +1,5 @@
 ﻿  S1.cpp
+C:\Users\alstj\Documents\GitHub\OpenGL\Project1\S1.cpp(14,15): warning C4244: '초기화 중': 'double'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+C:\Users\alstj\Documents\GitHub\OpenGL\Project1\S1.cpp(15,11): warning C4244: '초기화 중': 'double'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+C:\Users\alstj\Documents\GitHub\OpenGL\Project1\S1.cpp(16,11): warning C4244: '초기화 중': 'double'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
   Project1.vcxproj -> C:\Users\alstj\Documents\GitHub\OpenGL\Project1\Debug\Project1.exe
