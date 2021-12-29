@@ -1,64 +1,29 @@
-﻿#include "sourse.h"
-#include "model.h"
-#include <vector>
+﻿#include "model.h"
+//#include "sourse.h"
 
-#define PI 3.141592
-
-double radius = 0.2;
-
-double angle = 3.141592 / 180;
-
-GLfloat x = 0.0, y = 0.0; // 원의 초기 위치 값
-GLfloat dx = 0.01, dy = 0.01; // 원의 이동 크기(속도)
-GLfloat xDir = 1, yDir = 1.3; // 이동 방향
-
-void Circle(GLfloat cx, GLfloat cy)
-{
-	float x1, y1, x2, y2;
-	float angle;
-	double rad = radius;
-
-	x1 = cx, y1 = cy;
-
-	glColor3f(1.0, 1.0, 1.0);
-	
-	glBegin(GL_TRIANGLE_FAN);
-	glVertex2f(x1, y1);
-
-	for (angle = 1.0f; angle < 361.0f; angle += 0.2)
-	{
-		x2 = x1 + cos(angle) * rad;
-		y2 = y1 + sin(angle) * rad;
-		glVertex2f(x2, y2);
-	}
-	glEnd();
-}
-
-void move()
-{
-	x += xDir * dx;
-	y += yDir * dy;
-
-	// 원이 화면 범위를 벗어나게 되면 -1를 곱해서 방향을 바꾼다.
-	// 원의 이동 범위는 -1 ~ 1이다.
-	if ((xDir < 0 && x < -0.8) || (xDir > 0 && x > 0.8))
-	{
-		xDir = -xDir;
-	}
-	if ((yDir < 0 && y < -0.8) || (yDir > 0 && y > 0.8))
-	{ 
-		yDir = -yDir;
-	}
-}
+Circle ball;
+Bar bar;
 
 void Display()
 {
 	glClear(GL_COLOR_BUFFER_BIT); // 전에 있는 원의 흔적을 지운다.
 
-	Circle(x + dx, y + dy);
-	move();
+	ball.init();
+	ball.Circlemove();
+
+	bar.init();
 
 	glutSwapBuffers();
+}
+
+void keyboard(unsigned char key, int x, int y)
+{
+
+}
+
+void Special(int key, int x, int y)
+{
+	bar.Barmove(key);
 }
 
 void reshape_func(int width, int height)
@@ -87,6 +52,8 @@ int main(int argc, char** argv)
 
 	glutDisplayFunc(Display); // 그리기 전달함수 (인수는 그리기메서드)
 	glutReshapeFunc(reshape_func); // 윈도우 크기를 조절할 때, 사용할 함수를 지정한다.
+	glutKeyboardFunc(keyboard); // 키보드 입력
+	glutSpecialFunc(Special); // 키보드의 특수 키 입력
 	glutTimerFunc(0, MyTimer, NULL); // 선언된 이벤트를 무한으로 실행 시킨다.
 	glutMainLoop();
 

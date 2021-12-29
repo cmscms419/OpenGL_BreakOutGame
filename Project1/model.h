@@ -1,8 +1,6 @@
 #pragma once
-#include "model.h"
-#include <stdio.h>
-#include <math.h>
-
+#include <GL/glut.h>
+#include <iostream>
 
 typedef struct {
 	float x, y;
@@ -14,5 +12,28 @@ typedef struct {
 	float Top, Bottom;
 }Rect;
 
-bool collisionRect2Rect(Rect r1, Rect r2);
-bool collisionCircle2Circle(circle c1, circle c2);
+class Circle
+{
+public:
+	GLfloat x1, y1, x2, y2;
+	float angle;
+	double rad;
+
+	void init();
+	void Circlemove();
+};
+
+class Bar
+{
+public:
+	GLfloat x, y;
+	float hight, lenght;
+	
+	void init();
+	void Barmove(int key);
+	void collisionbarCircle();
+
+};
+
+bool checkbarInpoint(Bar bar, GLfloat x, GLfloat y);
+void collisionbarCircle(Bar bar, Circle circle);

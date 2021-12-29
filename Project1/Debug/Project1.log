@@ -1,8 +1,15 @@
-﻿  S1.cpp
-C:\Users\alstj\Documents\GitHub\OpenGL\Project1\S1.cpp(12,18): warning C4305: '초기화 중': 'double'에서 'GLfloat'(으)로 잘립니다.
-C:\Users\alstj\Documents\GitHub\OpenGL\Project1\S1.cpp(12,29): warning C4305: '초기화 중': 'double'에서 'GLfloat'(으)로 잘립니다.
-C:\Users\alstj\Documents\GitHub\OpenGL\Project1\S1.cpp(13,29): warning C4305: '초기화 중': 'double'에서 'GLfloat'(으)로 잘립니다.
-C:\Users\alstj\Documents\GitHub\OpenGL\Project1\S1.cpp(28,49): warning C4305: '+=': 'double'에서 'float'(으)로 잘립니다.
-C:\Users\alstj\Documents\GitHub\OpenGL\Project1\S1.cpp(30,11): warning C4244: '=': 'double'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-C:\Users\alstj\Documents\GitHub\OpenGL\Project1\S1.cpp(31,11): warning C4244: '=': 'double'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+﻿  model.cpp
+C:\Users\alstj\Documents\GitHub\OpenGL\Project1\model.cpp(5,26): warning C4305: '초기화 중': 'double'에서 'float'(으)로 잘립니다.
+C:\Users\alstj\Documents\GitHub\OpenGL\Project1\model.cpp(8,25): warning C4305: '초기화 중': 'double'에서 'GLfloat'(으)로 잘립니다.
+C:\Users\alstj\Documents\GitHub\OpenGL\Project1\model.cpp(8,36): warning C4305: '초기화 중': 'double'에서 'GLfloat'(으)로 잘립니다.
+C:\Users\alstj\Documents\GitHub\OpenGL\Project1\model.cpp(9,38): warning C4305: '초기화 중': 'double'에서 'GLfloat'(으)로 잘립니다.
+C:\Users\alstj\Documents\GitHub\OpenGL\Project1\model.cpp(11,29): warning C4305: '초기화 중': 'double'에서 'GLfloat'(으)로 잘립니다.
+C:\Users\alstj\Documents\GitHub\OpenGL\Project1\model.cpp(12,29): warning C4305: '초기화 중': 'double'에서 'GLfloat'(으)로 잘립니다.
+C:\Users\alstj\Documents\GitHub\OpenGL\Project1\model.cpp(12,44): warning C4305: '초기화 중': 'double'에서 'GLfloat'(으)로 잘립니다.
+C:\Users\alstj\Documents\GitHub\OpenGL\Project1\model.cpp(13,29): warning C4305: '초기화 중': 'double'에서 'GLfloat'(으)로 잘립니다.
+C:\Users\alstj\Documents\GitHub\OpenGL\Project1\model.cpp(24,13): warning C4244: '초기화 중': 'double'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+C:\Users\alstj\Documents\GitHub\OpenGL\Project1\model.cpp(25,13): warning C4244: '초기화 중': 'double'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+C:\Users\alstj\Documents\GitHub\OpenGL\Project1\model.cpp(42,49): warning C4305: '+=': 'double'에서 'float'(으)로 잘립니다.
+C:\Users\alstj\Documents\GitHub\OpenGL\Project1\model.cpp(44,11): warning C4244: '=': 'double'에서 'GLfloat'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+C:\Users\alstj\Documents\GitHub\OpenGL\Project1\model.cpp(45,11): warning C4244: '=': 'double'에서 'GLfloat'(으)로 변환하면서 데이터가 손실될 수 있습니다.
   Project1.vcxproj -> C:\Users\alstj\Documents\GitHub\OpenGL\Project1\Debug\Project1.exe
