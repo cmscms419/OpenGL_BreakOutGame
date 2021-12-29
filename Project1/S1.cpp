@@ -9,9 +9,11 @@ void Display()
 	glClear(GL_COLOR_BUFFER_BIT); // 전에 있는 원의 흔적을 지운다.
 
 	ball.init();
-	ball.Circlemove();
-
 	bar.init();
+	
+	Bound(bar, ball);
+
+	ball.Circlemove();
 
 	glutSwapBuffers();
 }

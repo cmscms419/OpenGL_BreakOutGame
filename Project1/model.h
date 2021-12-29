@@ -8,8 +8,7 @@ typedef struct {
 }circle;
 
 typedef struct {
-	float Left, Right;
-	float Top, Bottom;
+	GLfloat Left, Right, Top, Bottom;
 }Rect;
 
 class Circle
@@ -21,19 +20,26 @@ public:
 
 	void init();
 	void Circlemove();
+
+	Circle() {};
+	~Circle() {};
 };
 
 class Bar
 {
 public:
 	GLfloat x, y;
-	float hight, lenght;
+	Rect collisionSquare;
+	float height, lenght;
 	
 	void init();
 	void Barmove(int key);
-	void collisionbarCircle();
+
+	Bar() {};
+	~Bar() {};
 
 };
 
-bool checkbarInpoint(Bar bar, GLfloat x, GLfloat y);
-void collisionbarCircle(Bar bar, Circle circle);
+int checkpointInCircle(Bar bar, GLfloat x, GLfloat y);
+int collisionSquareCircle(Bar bar, Circle circle);
+void Bound(Bar bar, Circle circle);
