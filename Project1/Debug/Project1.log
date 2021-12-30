@@ -1,3 +1,5 @@
 ﻿  model.cpp
-C:\Users\alstj\Documents\GitHub\OpenGL\Project1\model.cpp(28,49): warning C4305: '+=': 'double'에서 'float'(으)로 잘립니다.
+C:\Users\alstj\Documents\GitHub\OpenGL\Project1\model.cpp(32,49): warning C4305: '+=': 'double'에서 'float'(으)로 잘립니다.
+C:\Users\alstj\Documents\GitHub\OpenGL\Project1\model.cpp(64,24): warning C4305: '=': 'double'에서 'GLfloat'(으)로 잘립니다.
+C:\Users\alstj\Documents\GitHub\OpenGL\Project1\model.cpp(65,24): warning C4305: '=': 'double'에서 'GLfloat'(으)로 잘립니다.
   Project1.vcxproj -> C:\Users\alstj\Documents\GitHub\OpenGL\Project1\Debug\Project1.exe

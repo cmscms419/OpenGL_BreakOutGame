@@ -1,16 +1,20 @@
 #include "model.h"
 
-#define AOC 0.003 // 변화량
-#define BARSPEED  0.03 // bar의 스피드
+#define AOC 0.003f		// 변화량
+#define BARSPEED  0.03f	// bar의 스피드
+#define Bheight 0.050	// bar의 크기
+#define Blenght  0.30	// bar의 크기
+
+#define SOL_F07 0.0055f // bar의 대각선을 구현하기 위해서, 값을 넣어준다.
 
 static GLfloat radius = 0.03f;
 
-static GLfloat x = 0.0f, y = -0.95f; // 원의 중심 위치 값
-static GLfloat dx = 0.01f, dy = 0.01f; // 원의 이동 크기(속도)
-static GLfloat xDir = -1.0f, yDir = -0.0f; // 이동 방향
+static GLfloat x = 0.0f, y = -0.9f; // 원의 중심 위치 값
+static GLfloat bar_x = -0.67f, bar_y = -1.0f; // bar의 초기 위치
 
-static GLfloat bar_x = -0.7f, bar_y = -1.0f; // bar의 초기 위치
-static GLfloat Bheight = 0.05f, Blenght = 0.3f; // bar의 크기
+static GLfloat dx = 0.005f, dy = 0.005f; // 이동 크기(속도)
+
+static GLfloat xDir = -1.0f, yDir = -0.5f; // 원의 이동 방향
 static GLfloat bDir = 1.0f; // bar의 방향
 
 
@@ -55,10 +59,18 @@ void Circle::Circlemove()
 
 void Bar::init()
 {
-	this->x = bar_x;
+	this->x = bar_x * bDir;
 	this->y = bar_y;
 	this->height = Bheight;
 	this->lenght = Blenght;
+
+	// bar의 위치를 계속 
+	this->collisionSquare = {
+		this->x - radius,
+		this->x + this->lenght + radius,
+		this->y + this->height + radius,
+		this->y - radius 
+	};
 
 	glColor3f(1.0, 1.0, 1.0);
 
@@ -101,61 +113,46 @@ int checkpointInCircle(Circle c, GLfloat x, GLfloat y)
 	float dy = c.y1 - y;
 	float lenght = sqrt(dx * dx + dy * dy);
 
-	if (lenght > radius)
+	if (lenght > radius + SOL_F07)
 		return 0;
 	return 1;
 }
 
 int collisionSquareCircle(Bar bar, Circle circle)
 {
-
-	// 원의 중심이 사각형 근처에 왔다는 것을 판단한다.
-	if (((bar.x + bar.lenght >= circle.x1) && (bar.x <= circle.x1))
-		|| (((bar.y + bar.height) >= circle.y1) && (bar.y <= circle.y1)))
+	// 위, 아래, 왼쪽, 오른쪽에 있는지 판단한다.
+	if ((bar.collisionSquare.Left < circle.x1 && circle.x1 < bar.collisionSquare.Right) &&
+		bar.collisionSquare.Bottom < circle.y1 && circle.y1 < bar.collisionSquare.Top)
 	{
-		// bar의 위치를 계속 
-		bar.collisionSquare = {
-			bar.x - radius,
-			bar.x + bar.lenght + radius,
-			bar.y + bar.height + radius,
-			bar.y - radius
-		};
-
-		// 위, 아래, 왼쪽, 오른쪽에 있는지 판단한다.
-		if ((bar.collisionSquare.Left < circle.x1 && circle.x1 < bar.collisionSquare.Right) &&
-			bar.collisionSquare.Bottom < circle.y1 && circle.y1 < bar.collisionSquare.Top)
-		{
-			// 왼쪽
-			if (bar.x > circle.x1)
-				return 1;
-			// 오른쪽
-			if (bar.x + bar.lenght < circle.x1)
-				return 1;
-			// 아래
-			if (bar.y > circle.y1)
-				return 2;
-			// 위
-			if (bar.y + bar.height < circle.y1)
-				return 2;
-		}
-		else // 좌상단, 좌하단, 우상단, 우하단에 있는 것을 판단한다.
-		{
-
-			// 좌상단
-			if (checkpointInCircle(circle, bar.x, bar.y + bar.height))
-				return 3;
-			// 좌하단
-			if (checkpointInCircle(circle, bar.x, bar.y))
-				return 3;
-			// 우상단
-			if (checkpointInCircle(circle, bar.x + bar.lenght, bar.y + bar.height))
-				return 3;
-			// 우하단
-			if (checkpointInCircle(circle, bar.x + bar.lenght, bar.y))
-				return 3;
-		}
+		// 왼쪽
+		if (bar.x > circle.x1 && bar.y < circle.y1 && circle.y1 < bar.y + bar.height)
+			return 1;
+		// 오른쪽
+		if (bar.x + bar.lenght < circle.x1 && bar.y < circle.y1 && circle.y1 < bar.y + bar.height)
+			return 1;
+		// 아래
+		if (bar.y > circle.y1 && bar.x < circle.x1 && circle.x1 < bar.x + bar.lenght)
+			return 2;
+		// 위
+		if (bar.y + bar.height < circle.y1 && bar.x < circle.x1 && circle.x1 < bar.x + bar.lenght)
+			return 2;
 	}
-
+	// 좌상단, 좌하단, 우상단, 우하단에 있는 것을 판단한다.
+	else 
+	{
+		// 좌상단
+		if (checkpointInCircle(circle, bar.x, bar.y + bar.height))
+			return 3;
+		// 좌하단
+		if (checkpointInCircle(circle, bar.x, bar.y))
+			return 3;
+		// 우상단
+		if (checkpointInCircle(circle, bar.x + bar.lenght, bar.y + bar.height))
+			return 3;
+		// 우하단
+		if (checkpointInCircle(circle, bar.x + bar.lenght, bar.y))
+			return 3;
+	}
 	return 0;
 }
 
@@ -173,6 +170,5 @@ void Bound(Bar bar, Circle circle)
 		xDir = -xDir;
 		yDir = -yDir;
 		break;
-
 	}
 }
