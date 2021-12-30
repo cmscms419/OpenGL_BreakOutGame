@@ -3,20 +3,15 @@
 #include <iostream>
 
 typedef struct {
-	float x, y;
-	float radian;
-}circle;
-
-typedef struct {
 	GLfloat Left, Right, Top, Bottom;
 }Rect;
 
 class Circle
 {
 public:
-	GLfloat x1, y1, x2, y2;
-	float angle;
-	double rad;
+	GLfloat x1{}, y1{}, x2{}, y2{};
+	GLfloat rad{};
+	float angle{};
 
 	void init();
 	void Circlemove();
@@ -28,9 +23,9 @@ public:
 class Bar
 {
 public:
-	GLfloat x, y;
-	Rect collisionSquare;
-	float height, lenght;
+	GLfloat x{}, y{};
+	GLfloat height{}, lenght{};
+	Rect collisionSquare{};
 	
 	void init();
 	void Barmove(int key);
