@@ -1,24 +1,24 @@
 #include "model.h"
 
-#define AOC 0.003f		// º¯È­·®
-#define SOL_F07 0.01f // barÀÇ ´ë°¢¼±À» ±¸ÇöÇÏ±â À§ÇØ¼­, °ªÀ» ³Ö¾îÁØ´Ù.
+#define AOC 0.003f		// ë³€í™”ëŸ‰
+#define SOL_F07 0.01f // barì˜ ëŒ€ê°ì„ ì„ êµ¬í˜„í•˜ê¸° ìœ„í•´ì„œ, ê°’ì„ ë„£ì–´ì¤€ë‹¤.
 
 // Ball
 static GLfloat radius = 0.03f;
 
-static GLfloat x = 0.0f, y = -0.9f; // ¿øÀÇ Áß½É À§Ä¡ °ª
-static GLfloat dx = 0.005f, dy = 0.005f; // ÀÌµ¿ Å©±â(¼Óµµ)
-static GLfloat xDir = -1.0f, yDir = -0.5f; // ¿øÀÇ ÀÌµ¿ ¹æÇâ
+static GLfloat x = 0.0f, y = -0.9f; // ì›ì˜ ì¤‘ì‹¬ ìœ„ì¹˜ ê°’
+static GLfloat dx = 0.005f, dy = 0.005f; // ì´ë™ í¬ê¸°(ì†ë„)
+static GLfloat xDir = -1.0f, yDir = -0.5f; // ì›ì˜ ì´ë™ ë°©í–¥
 
 // Bar
-static GLfloat bar_x = -0.5f, bar_y = -1.0f; // barÀÇ ÃÊ±â À§Ä¡
-static GLfloat bDir = 1.0f; // barÀÇ ¹æÇâ
-static GLfloat Blenght = 0.30f;	// barÀÇ Å©±â
-static GLfloat BARSPEED = 0.03f;	// barÀÇ ½ºÇÇµå
-static GLfloat Bheight = 0.05f;	// barÀÇ Å©±â
+static GLfloat bar_x = -0.5f, bar_y = -1.0f; // barì˜ ì´ˆê¸° ìœ„ì¹˜
+static GLfloat bDir = 1.0f; // barì˜ ë°©í–¥
+static GLfloat Blenght = 0.30f;	// barì˜ í¬ê¸°
+static GLfloat BARSPEED = 0.03f;	// barì˜ ìŠ¤í”¼ë“œ
+static GLfloat Bheight = 0.05f;	// barì˜ í¬ê¸°
 // Block
 
-// GLlist¸¦ ¸¸µé±â
+// GLlistë¥¼ ë§Œë“¤ê¸°
 
 
 void Circle::init()
@@ -47,8 +47,8 @@ void Circle::Circlemove()
 	y += yDir * dy;
 
 
-	// ¿øÀÌ È­¸é ¹üÀ§¸¦ ¹ş¾î³ª°Ô µÇ¸é -1¸¦ °öÇØ¼­ ¹æÇâÀ» ¹Ù²Û´Ù.
-	// ¿øÀÇ ÀÌµ¿ ¹üÀ§´Â -1 ~ 1ÀÌ´Ù.
+	// ì›ì´ í™”ë©´ ë²”ìœ„ë¥¼ ë²—ì–´ë‚˜ê²Œ ë˜ë©´ -1ë¥¼ ê³±í•´ì„œ ë°©í–¥ì„ ë°”ê¾¼ë‹¤.
+	// ì›ì˜ ì´ë™ ë²”ìœ„ëŠ” -1 ~ 1ì´ë‹¤.
 	if ((x - this->rad <= static_cast<GLfloat>(-0.9999)) || (x + this->rad >= static_cast<GLfloat>(0.9999)))
 	{
 		xDir = -xDir;
@@ -67,7 +67,7 @@ void Bar::init()
 	this->height = Bheight;
 	this->lenght = Blenght;
 
-	// barÀÇ À§Ä¡¸¦ °è¼Ó 
+	// barì˜ ìœ„ì¹˜ë¥¼ ê³„ì† 
 	this->collisionSquare = {
 		this->x - radius,
 		this->x + this->lenght + radius,
@@ -119,7 +119,8 @@ void Block::init()
 		this->height = Bheight;
 		this->lenght = Blenght;
 
-		this->collisionSquare = {
+		this->collisionSquare = 
+		{
 			this->x - radius,
 			this->x + this->lenght + radius,
 			this->y + this->height + radius,
@@ -158,36 +159,36 @@ int checkpointInCircle(Circle c, GLfloat x, GLfloat y)
 
 int collisionSquareCircle(Bar bar, Circle circle)
 {
-	// À§, ¾Æ·¡, ¿ŞÂÊ, ¿À¸¥ÂÊ¿¡ ÀÖ´ÂÁö ÆÇ´ÜÇÑ´Ù.
+	// ìœ„, ì•„ë˜, ì™¼ìª½, ì˜¤ë¥¸ìª½ì— ìˆëŠ”ì§€ íŒë‹¨í•œë‹¤.
 	if ((bar.collisionSquare.Left < circle.x1 && circle.x1 < bar.collisionSquare.Right) &&
 		bar.collisionSquare.Bottom < circle.y1 && circle.y1 < bar.collisionSquare.Top)
 	{
-		// ¿ŞÂÊ
+		// ì™¼ìª½
 		if (bar.x > circle.x1 && bar.y < circle.y1 && circle.y1 < bar.y + bar.height)
 			return 1;
-		// ¿À¸¥ÂÊ
+		// ì˜¤ë¥¸ìª½
 		if (bar.x + bar.lenght < circle.x1 && bar.y < circle.y1 && circle.y1 < bar.y + bar.height)
 			return 1;
-		// ¾Æ·¡
+		// ì•„ë˜
 		if (bar.y > circle.y1 && bar.x < circle.x1 && circle.x1 < bar.x + bar.lenght)
 			return 2;
-		// À§
+		// ìœ„
 		if (bar.y + bar.height < circle.y1 && bar.x < circle.x1 && circle.x1 < bar.x + bar.lenght)
 			return 2;
 	}
-	// ÁÂ»ó´Ü, ÁÂÇÏ´Ü, ¿ì»ó´Ü, ¿ìÇÏ´Ü¿¡ ÀÖ´Â °ÍÀ» ÆÇ´ÜÇÑ´Ù.
+	// ì¢Œìƒë‹¨, ì¢Œí•˜ë‹¨, ìš°ìƒë‹¨, ìš°í•˜ë‹¨ì— ìˆëŠ” ê²ƒì„ íŒë‹¨í•œë‹¤.
 	else 
 	{
-		// ÁÂ»ó´Ü
+		// ì¢Œìƒë‹¨
 		if (checkpointInCircle(circle, bar.x, bar.y + bar.height))
 			return 3;
-		// ÁÂÇÏ´Ü
+		// ì¢Œí•˜ë‹¨
 		if (checkpointInCircle(circle, bar.x, bar.y))
 			return 3;
-		// ¿ì»ó´Ü
+		// ìš°ìƒë‹¨
 		if (checkpointInCircle(circle, bar.x + bar.lenght, bar.y + bar.height))
 			return 3;
-		// ¿ìÇÏ´Ü
+		// ìš°í•˜ë‹¨
 		if (checkpointInCircle(circle, bar.x + bar.lenght, bar.y))
 			return 3;
 	}
@@ -196,36 +197,36 @@ int collisionSquareCircle(Bar bar, Circle circle)
 
 int collisionSquareCircle2(Block bar, Circle circle)
 {
-	// À§, ¾Æ·¡, ¿ŞÂÊ, ¿À¸¥ÂÊ¿¡ ÀÖ´ÂÁö ÆÇ´ÜÇÑ´Ù.
+	// ìœ„, ì•„ë˜, ì™¼ìª½, ì˜¤ë¥¸ìª½ì— ìˆëŠ”ì§€ íŒë‹¨í•œë‹¤.
 	if ((bar.collisionSquare.Left < circle.x1 && circle.x1 < bar.collisionSquare.Right) &&
 		bar.collisionSquare.Bottom < circle.y1 && circle.y1 < bar.collisionSquare.Top)
 	{
-		// ¿ŞÂÊ
+		// ì™¼ìª½
 		if (bar.x > circle.x1 && bar.y < circle.y1 && circle.y1 < bar.y + bar.height)
 			return 1;
-		// ¿À¸¥ÂÊ
+		// ì˜¤ë¥¸ìª½
 		if (bar.x + bar.lenght < circle.x1 && bar.y < circle.y1 && circle.y1 < bar.y + bar.height)
 			return 1;
-		// ¾Æ·¡
+		// ì•„ë˜
 		if (bar.y > circle.y1 && bar.x < circle.x1 && circle.x1 < bar.x + bar.lenght)
 			return 2;
-		// À§
+		// ìœ„
 		if (bar.y + bar.height < circle.y1 && bar.x < circle.x1 && circle.x1 < bar.x + bar.lenght)
 			return 2;
 	}
-	// ÁÂ»ó´Ü, ÁÂÇÏ´Ü, ¿ì»ó´Ü, ¿ìÇÏ´Ü¿¡ ÀÖ´Â °ÍÀ» ÆÇ´ÜÇÑ´Ù.
+	// ì¢Œìƒë‹¨, ì¢Œí•˜ë‹¨, ìš°ìƒë‹¨, ìš°í•˜ë‹¨ì— ìˆëŠ” ê²ƒì„ íŒë‹¨í•œë‹¤.
 	else
 	{
-		// ÁÂ»ó´Ü
+		// ì¢Œìƒë‹¨
 		if (checkpointInCircle(circle, bar.x, bar.y + bar.height))
 			return 3;
-		// ÁÂÇÏ´Ü
+		// ì¢Œí•˜ë‹¨
 		if (checkpointInCircle(circle, bar.x, bar.y))
 			return 3;
-		// ¿ì»ó´Ü
+		// ìš°ìƒë‹¨
 		if (checkpointInCircle(circle, bar.x + bar.lenght, bar.y + bar.height))
 			return 3;
-		// ¿ìÇÏ´Ü
+		// ìš°í•˜ë‹¨
 		if (checkpointInCircle(circle, bar.x + bar.lenght, bar.y))
 			return 3;
 	}
