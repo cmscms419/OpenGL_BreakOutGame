@@ -16,9 +16,7 @@ static GLfloat bDir = 1.0f; // bar의 방향
 static GLfloat Blenght = 0.30f;	// bar의 크기
 static GLfloat BARSPEED = 0.03f;	// bar의 스피드
 static GLfloat Bheight = 0.05f;	// bar의 크기
-
 // Block
-
 
 // GLlist를 만들기
 
@@ -114,7 +112,37 @@ void Bar::Barmove(int key)
 
 void Block::init()
 {
+	if (this->stay) 
+	{
+		this->x = 0.0f;
+		this->y = 0.0f;
+		this->height = Bheight;
+		this->lenght = Blenght;
 
+		this->collisionSquare = {
+			this->x - radius,
+			this->x + this->lenght + radius,
+			this->y + this->height + radius,
+			this->y - radius
+		};
+
+		glColor3f(1.0, 1.0, 1.0);
+
+		glBegin(GL_TRIANGLES);
+		glVertex2f(x, y);
+		glVertex2f(x + this->lenght, y);
+		glVertex2f(x, y + this->height);
+
+		glVertex2f(x + this->lenght, y + this->height);
+		glVertex2f(x + this->lenght, y);
+		glVertex2f(x, y + this->height);
+		glEnd();
+	}
+}
+
+void Block::create()
+{
+	this->stay = 1;
 }
 
 int checkpointInCircle(Circle c, GLfloat x, GLfloat y)
@@ -166,6 +194,44 @@ int collisionSquareCircle(Bar bar, Circle circle)
 	return 0;
 }
 
+int collisionSquareCircle2(Block bar, Circle circle)
+{
+	// 위, 아래, 왼쪽, 오른쪽에 있는지 판단한다.
+	if ((bar.collisionSquare.Left < circle.x1 && circle.x1 < bar.collisionSquare.Right) &&
+		bar.collisionSquare.Bottom < circle.y1 && circle.y1 < bar.collisionSquare.Top)
+	{
+		// 왼쪽
+		if (bar.x > circle.x1 && bar.y < circle.y1 && circle.y1 < bar.y + bar.height)
+			return 1;
+		// 오른쪽
+		if (bar.x + bar.lenght < circle.x1 && bar.y < circle.y1 && circle.y1 < bar.y + bar.height)
+			return 1;
+		// 아래
+		if (bar.y > circle.y1 && bar.x < circle.x1 && circle.x1 < bar.x + bar.lenght)
+			return 2;
+		// 위
+		if (bar.y + bar.height < circle.y1 && bar.x < circle.x1 && circle.x1 < bar.x + bar.lenght)
+			return 2;
+	}
+	// 좌상단, 좌하단, 우상단, 우하단에 있는 것을 판단한다.
+	else
+	{
+		// 좌상단
+		if (checkpointInCircle(circle, bar.x, bar.y + bar.height))
+			return 3;
+		// 좌하단
+		if (checkpointInCircle(circle, bar.x, bar.y))
+			return 3;
+		// 우상단
+		if (checkpointInCircle(circle, bar.x + bar.lenght, bar.y + bar.height))
+			return 3;
+		// 우하단
+		if (checkpointInCircle(circle, bar.x + bar.lenght, bar.y))
+			return 3;
+	}
+	return 0;
+}
+
 void Bound(Bar bar, Circle circle)
 {
 	switch (collisionSquareCircle(bar, circle))
@@ -183,7 +249,27 @@ void Bound(Bar bar, Circle circle)
 	}
 }
 
-void Del(Block block[], int number)
+void Bound2(Block *block, Circle circle)
 {
-	block[number].stay = 0;
+	switch (collisionSquareCircle2(*block, circle))
+	{
+	case 1:
+		xDir = -xDir;
+		Del(block);
+		break;
+	case 2:
+		yDir = -yDir;
+		Del(block);
+		break;
+	case 3:
+		xDir = -xDir;
+		yDir = -yDir;
+		Del(block);
+		break;
+	}
+}
+
+void Del(Block *block)
+{
+	block->stay = 0;
 }

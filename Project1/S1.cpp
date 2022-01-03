@@ -3,7 +3,7 @@
 
 Circle ball;
 Bar bar;
-Bar Block;
+Block block;
 
 void Display()
 {
@@ -11,8 +11,12 @@ void Display()
 
 	ball.init();
 	bar.init();
+	block.init();
 	
 	Bound(bar, ball);
+	
+	if(block.stay)
+		Bound2(&block, ball);
 
 	ball.Circlemove();
 
@@ -52,6 +56,8 @@ int main(int argc, char** argv)
 	glutInitWindowPosition(100, 100); // 실행창을 어디 위치에 보여줄지 표시해 준다.
 	glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGB); // 디스플레이 표면의 특징을 결정한다.
 	glutCreateWindow("OpenGL");
+
+	block.create();
 
 	glutDisplayFunc(Display); // 그리기 전달함수 (인수는 그리기메서드)
 	glutReshapeFunc(reshape_func); // 윈도우 크기를 조절할 때, 사용할 함수를 지정한다.

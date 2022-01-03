@@ -1,3 +1,5 @@
-﻿  S1.cpp
-C:\Users\alstj\Documents\GitHub\OpenGL\Project1\S1.cpp(15,1): warning C4326: 'main'의 반환 형식이 'int'이어야 하는데 'void'입니다.
+﻿  glad.c
+  model.cpp
+  S1.cpp
+  코드를 생성하고 있습니다...
   Project1.vcxproj -> C:\Users\alstj\Documents\GitHub\OpenGL\Project1\x64\Debug\Project1.exe

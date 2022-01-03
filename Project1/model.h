@@ -2,6 +2,8 @@
 #include <GL/glut.h>
 #include <iostream>
 
+#define MAX 30
+
 typedef struct {
 	GLfloat Left, Right, Top, Bottom;
 }Rect;
@@ -37,15 +39,19 @@ public:
 class Block
 {
 public:
-	int stay = 0;
+	int stay{};
 	GLfloat x{}, y{};
 	GLfloat height{}, lenght{};
 	Rect collisionSquare{};
 
 	void init();
+	void create();
+
 };
 
 int checkpointInCircle(Bar bar, GLfloat x, GLfloat y);
 int collisionSquareCircle(Bar bar, Circle circle);
+int collisionSquareCircle2(Block bar, Circle circle);
 void Bound(Bar bar, Circle circle);
-void Del(Bar bar, int number);
+void Bound2(Block *block, Circle circle);
+void Del(Block *block);
