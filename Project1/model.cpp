@@ -1,21 +1,26 @@
 #include "model.h"
 
 #define AOC 0.003f		// 변화량
-#define BARSPEED  0.03f	// bar의 스피드
-#define Bheight 0.050	// bar의 크기
-#define Blenght  0.30	// bar의 크기
+#define SOL_F07 0.01f // bar의 대각선을 구현하기 위해서, 값을 넣어준다.
 
-#define SOL_F07 0.0055f // bar의 대각선을 구현하기 위해서, 값을 넣어준다.
-
+// Ball
 static GLfloat radius = 0.03f;
 
 static GLfloat x = 0.0f, y = -0.9f; // 원의 중심 위치 값
-static GLfloat bar_x = -0.67f, bar_y = -1.0f; // bar의 초기 위치
-
 static GLfloat dx = 0.005f, dy = 0.005f; // 이동 크기(속도)
-
 static GLfloat xDir = -1.0f, yDir = -0.5f; // 원의 이동 방향
+
+// Bar
+static GLfloat bar_x = -0.5f, bar_y = -1.0f; // bar의 초기 위치
 static GLfloat bDir = 1.0f; // bar의 방향
+static GLfloat Blenght = 0.30f;	// bar의 크기
+static GLfloat BARSPEED = 0.03f;	// bar의 스피드
+static GLfloat Bheight = 0.05f;	// bar의 크기
+
+// Block
+
+
+// GLlist를 만들기
 
 
 void Circle::init()
@@ -29,7 +34,7 @@ void Circle::init()
 	glBegin(GL_TRIANGLE_FAN);
 	glVertex2f(x1, y1);
 
-	for (angle = 1.0f; angle < 361.0f; angle += 0.2)
+	for (angle = 1.0f; angle < 361.0f; angle += 0.2f)
 	{
 		x2 = x1 + cos(angle) * rad;
 		y2 = y1 + sin(angle) * rad;
@@ -107,6 +112,11 @@ void Bar::Barmove(int key)
 	}
 }
 
+void Block::init()
+{
+
+}
+
 int checkpointInCircle(Circle c, GLfloat x, GLfloat y)
 {
 	float dx = c.x1 - x;
@@ -171,4 +181,9 @@ void Bound(Bar bar, Circle circle)
 		yDir = -yDir;
 		break;
 	}
+}
+
+void Del(Block block[], int number)
+{
+	block[number].stay = 0;
 }

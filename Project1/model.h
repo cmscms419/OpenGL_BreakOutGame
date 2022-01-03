@@ -20,21 +20,32 @@ public:
 	~Circle() {};
 };
 
-class Bar
+class Bar 
 {
 public:
 	GLfloat x{}, y{};
 	GLfloat height{}, lenght{};
 	Rect collisionSquare{};
-	
+
 	void init();
 	void Barmove(int key);
 
 	Bar() {};
 	~Bar() {};
+};
 
+class Block
+{
+public:
+	int stay = 0;
+	GLfloat x{}, y{};
+	GLfloat height{}, lenght{};
+	Rect collisionSquare{};
+
+	void init();
 };
 
 int checkpointInCircle(Bar bar, GLfloat x, GLfloat y);
 int collisionSquareCircle(Bar bar, Circle circle);
 void Bound(Bar bar, Circle circle);
+void Del(Bar bar, int number);
