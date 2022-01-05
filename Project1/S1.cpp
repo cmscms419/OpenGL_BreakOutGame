@@ -1,25 +1,40 @@
-﻿#include "model.h"
+#include "model.h"
 //#include "sourse.h"
+
+static GLfloat blc_x = BLOCK_INI_X;
+static GLfloat blc_y = BLOCK_INI_Y;
 
 Circle ball;
 Bar bar;
-Block block;
+Block block[MAX];
+
+int count = 0;
 
 void Display()
 {
 	glClear(GL_COLOR_BUFFER_BIT); // 전에 있는 원의 흔적을 지운다.
 
-	ball.init();
+	blc_x = BLOCK_INI_X;
+	blc_y = BLOCK_INI_Y;
+
 	bar.init();
-	block.init();
-	
+	ball.init();
+
+	for (int i = 0; i < MAX; i++)
+	{
+		block[i].init(blc_x, blc_y);
+		blc_x += BLOCK_lenght;
+	}
+
 	Bound(bar, ball);
-	
-	if(block.stay)
-		Bound2(&block, ball);
+
+	for (int i = 0; i < MAX; i++)
+	{
+		Bound2(&block[i], ball);
+	}
 
 	ball.Circlemove();
-
+	
 	glutSwapBuffers();
 }
 
@@ -56,8 +71,6 @@ int main(int argc, char** argv)
 	glutInitWindowPosition(100, 100); // 실행창을 어디 위치에 보여줄지 표시해 준다.
 	glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGB); // 디스플레이 표면의 특징을 결정한다.
 	glutCreateWindow("OpenGL");
-
-	block.create();
 
 	glutDisplayFunc(Display); // 그리기 전달함수 (인수는 그리기메서드)
 	glutReshapeFunc(reshape_func); // 윈도우 크기를 조절할 때, 사용할 함수를 지정한다.
