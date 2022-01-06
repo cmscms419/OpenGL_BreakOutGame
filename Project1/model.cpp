@@ -1,5 +1,6 @@
 #include "model.h"
 
+
 // Ball
 static GLfloat radius = 0.03f;
 
@@ -11,12 +12,20 @@ static GLfloat xDir = -1.0f, yDir = -0.5f; // 원의 이동 방향
 static GLfloat bar_x = -0.5f, bar_y = -1.0f; // bar의 초기 위치
 static GLfloat bDir = 1.0f; // bar의 방향
 static GLfloat Blenght = 0.3f;	// bar의 크기
-static GLfloat BARSPEED = 0.03f;	// bar의 스피드
+static GLfloat BARSPEED = 0.025f;	// bar의 스피드
 static GLfloat Bheight = 0.05f;	// bar의 크기
 
 // Block
+static GLfloat blc_x = BLOCK_INI_X;
+static GLfloat blc_y = BLOCK_INI_Y;
+
 static GLfloat blc_l = 0.2f;
 static GLfloat blc_h = 0.1f;
+
+//Color
+static GLfloat r;
+static GLfloat g;
+static GLfloat b;
 
 
 void Circle::init()
@@ -59,7 +68,7 @@ void Circle::Circlemove()
 
 void Bar::init()
 {
-	this->x = bar_x * bDir;
+	this->x = bar_x;
 	this->y = bar_y;
 	this->height = Bheight;
 	this->lenght = Blenght;
@@ -69,7 +78,7 @@ void Bar::init()
 		this->x - radius,
 		this->x + this->lenght + radius,
 		this->y + this->height + radius,
-		this->y - radius 
+		this->y - radius
 	};
 
 	glColor3f(1.0, 1.0, 1.0);
@@ -93,7 +102,7 @@ void Bar::Barmove(int key)
 		bar_x += static_cast<GLfloat>(bDir * BARSPEED);
 		break;
 	case GLUT_KEY_LEFT:
-		bar_x -= static_cast<GLfloat>(bDir * BARSPEED);
+		bar_x += static_cast<GLfloat>(-bDir * BARSPEED);
 		break;
 	case GLUT_KEY_UP:
 		dx += static_cast<GLfloat>(AOC);
@@ -109,20 +118,26 @@ void Bar::Barmove(int key)
 
 void Block::init(GLfloat x1, GLfloat y1)
 {
-	if (this->stay) 
+	if (this->stay)
 	{
 		this->x = x1;
 		this->y = y1;
 		this->height = BLOCK_height;
 		this->lenght = BLOCK_lenght;
 
-		this->collisionSquare = 
+		this->collisionSquare =
 		{
 			this->x - radius,
 			this->x + this->lenght + radius,
 			this->y + this->height + radius,
 			this->y - radius
 		};
+		for (int i = 0; i < 3; i++)
+		{
+			std::random_device rd;
+			std::mt19937 gen(rd());
+			std::uniform_int_distribution<int> dis(0, 1);
+		}
 
 		glColor3f(1.0, 1.0, 1.0);
 
@@ -144,14 +159,13 @@ int checkpointInCircle(Circle c, GLfloat x, GLfloat y)
 	float dy = c.y1 - y;
 	float lenght = sqrt(dx * dx + dy * dy);
 
-	if (lenght > radius + SOL_F07)
+	if (lenght > radius)
 		return 0;
 	return 1;
 }
 
 int collisionSquareCircle(Bar bar, Circle circle)
 {
-	// 위, 아래, 왼쪽, 오른쪽에 있는지 판단한다.
 	if ((bar.collisionSquare.Left < circle.x1 && circle.x1 < bar.collisionSquare.Right) &&
 		bar.collisionSquare.Bottom < circle.y1 && circle.y1 < bar.collisionSquare.Top)
 	{
@@ -167,10 +181,8 @@ int collisionSquareCircle(Bar bar, Circle circle)
 		// 위
 		if (bar.y + bar.height < circle.y1 && bar.x < circle.x1 && circle.x1 < bar.x + bar.lenght)
 			return 2;
-	}
-	// 좌상단, 좌하단, 우상단, 우하단에 있는 것을 판단한다.
-	else 
-	{
+
+		// 좌상단, 좌하단, 우상단, 우하단에 있는 것을 판단한다.
 		// 좌상단
 		if (checkpointInCircle(circle, bar.x, bar.y + bar.height))
 			return 3;
@@ -245,7 +257,7 @@ void Bound(Bar bar, Circle circle)
 	}
 }
 
-void Bound2(Block *block, Circle circle)
+void Bound2(Block* block, Circle circle)
 {
 	switch (collisionSquareCircle2(*block, circle))
 	{
@@ -265,7 +277,37 @@ void Bound2(Block *block, Circle circle)
 	}
 }
 
-void Del(Block *block)
+void Block_init(Block block[][MAX_X], int max_x, int max_y)
+{
+	for (int i = 0; i < max_y; i++)
+	{
+		for (int m = 0; m < max_x; m++)
+		{
+			block[i][m].init(blc_x, blc_y);
+			blc_x += 0.12f;
+		}
+		blc_x = BLOCK_INI_X;
+		blc_y = blc_y - 0.1f;
+	}
+}
+
+void Block_Bound(Block block[][MAX_X], int max_x, int max_y, Circle ball)
+{
+	for (int i = 0; i < MAX_Y; i++)
+	{
+		for (int m = 0; m < MAX_X; m++)
+		{
+			Bound2(&block[i][m], ball);
+		}
+		blc_x = BLOCK_INI_X;
+		blc_y = blc_y - 0.1f;
+	}
+
+	blc_x = BLOCK_INI_X;
+	blc_y = BLOCK_INI_Y;
+}
+
+void Del(Block* block)
 {
 	block->stay = 0;
 }

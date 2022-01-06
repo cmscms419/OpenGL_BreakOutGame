@@ -1,12 +1,9 @@
 #include "model.h"
 //#include "sourse.h"
 
-static GLfloat blc_x = BLOCK_INI_X;
-static GLfloat blc_y = BLOCK_INI_Y;
-
 Circle ball;
 Bar bar;
-Block block[MAX];
+Block block[MAX_Y][MAX_X];
 
 int count = 0;
 
@@ -14,27 +11,16 @@ void Display()
 {
 	glClear(GL_COLOR_BUFFER_BIT); // 전에 있는 원의 흔적을 지운다.
 
-	blc_x = BLOCK_INI_X;
-	blc_y = BLOCK_INI_Y;
 
 	bar.init();
 	ball.init();
-
-	for (int i = 0; i < MAX; i++)
-	{
-		block[i].init(blc_x, blc_y);
-		blc_x += BLOCK_lenght;
-	}
+	Block_init(block, MAX_X, MAX_Y);
 
 	Bound(bar, ball);
-
-	for (int i = 0; i < MAX; i++)
-	{
-		Bound2(&block[i], ball);
-	}
+	Block_Bound(block, MAX_X, MAX_Y, ball);
 
 	ball.Circlemove();
-	
+
 	glutSwapBuffers();
 }
 
@@ -66,6 +52,7 @@ void MyTimer(int Value) {
 
 int main(int argc, char** argv)
 {
+
 	glutInit(&argc, argv);
 	glutInitWindowSize(800, 800);
 	glutInitWindowPosition(100, 100); // 실행창을 어디 위치에 보여줄지 표시해 준다.

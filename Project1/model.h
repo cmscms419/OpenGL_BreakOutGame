@@ -1,13 +1,17 @@
 #pragma once
 #include <GL/glut.h>
 #include <iostream>
+#include <random>
 
-#define MAX 5
+#define MAX_Y 3
+#define MAX_X 10
 #define AOC 0.003f		// 변화량
 #define SOL_F07 0.01f // bar의 대각선을 구현하기 위해서, 값을 넣어준다.
+
+//block
 #define BLOCK_lenght 0.1f
 #define BLOCK_height 0.05f
-#define BLOCK_INI_X -1.0f
+#define BLOCK_INI_X -0.6f
 #define BLOCK_INI_Y 0.5f
 
 typedef struct {
@@ -16,7 +20,7 @@ typedef struct {
 
 typedef struct {
 	GLfloat x1, y1;
-}squareVertex2f;
+}Vertex2f;
 
 class Circle
 {
@@ -62,4 +66,6 @@ int collisionSquareCircle(Bar bar, Circle circle);
 int collisionSquareCircle2(Block bar, Circle circle);
 void Bound(Bar bar, Circle circle);
 void Bound2(Block *block, Circle circle);
+void Block_init(Block block[][MAX_X], int max_x, int max_y);
+void Block_Bound(Block block[][MAX_X], int max_x, int max_y, Circle ball);
 void Del(Block *block);
