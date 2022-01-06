@@ -2,6 +2,7 @@
 #define _CRT_SECURE_NO_WARNINGS 
 
 #include <GL/glut.h>
+#include <GL/GLAUX.H>
 #include <FreeImage.h>
 #include <iostream>
 #include <random>
