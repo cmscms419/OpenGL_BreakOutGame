@@ -1,5 +1,8 @@
-#pragma once
+
+#define _CRT_SECURE_NO_WARNINGS 
+
 #include <GL/glut.h>
+#include <FreeImage.h>
 #include <iostream>
 #include <random>
 
@@ -18,9 +21,6 @@ typedef struct {
 	GLfloat Left, Right, Top, Bottom;
 }Rect;
 
-typedef struct {
-	GLfloat x1, y1;
-}Vertex2f;
 
 class Circle
 {
@@ -69,3 +69,4 @@ void Bound2(Block *block, Circle circle);
 void Block_init(Block block[][MAX_X], int max_x, int max_y);
 void Block_Bound(Block block[][MAX_X], int max_x, int max_y, Circle ball);
 void Del(Block *block);
+GLubyte* LoadDIBitmap(const char* filename, BITMAPINFO** info);
