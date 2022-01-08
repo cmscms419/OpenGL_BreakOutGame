@@ -1,9 +1,11 @@
 
 #define _CRT_SECURE_NO_WARNINGS 
 
+#include <Windows.h>
 #include <GL/glut.h>
-#include <GL/GLAUX.H>
-#include <FreeImage.h>
+#include <GL/freeglut.h>
+#include <GL/GL.h>
+#include <GL/GLU.h>
 #include <iostream>
 #include <random>
 

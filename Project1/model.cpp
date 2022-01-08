@@ -338,6 +338,7 @@ void Del(Block* block)
 
 
 // [출처] [OpenGL] 예제12번을 응용한 텍스쳐매핑 예제16 | 작성자 송주씨
+/*
 GLubyte* LoadDIBitmap(const char* filename, BITMAPINFO** info)
 {
 	FILE* fp;
@@ -401,3 +402,4 @@ GLubyte* LoadDIBitmap(const char* filename, BITMAPINFO** info)
 	fclose(fp);
 	return bits;
 }
+*/
