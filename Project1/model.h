@@ -3,11 +3,10 @@
 
 #include <Windows.h>
 #include <GL/glut.h>
-#include <GL/freeglut.h>
-#include <GL/GL.h>
-#include <GL/GLU.h>
 #include <iostream>
 #include <random>
+
+#define RADIUS 0.03f
 
 #define MAX_Y 3
 #define MAX_X 10
@@ -29,13 +28,22 @@ class Circle
 {
 public:
 	GLfloat x1{}, y1{}, x2{}, y2{};
+	GLfloat dx{}, dy{}, xDir{}, yDir{};
 	GLfloat rad{};
 	float angle{};
 
 	void init();
 	void Circlemove();
 
-	Circle() {};
+	Circle() {
+		this->x1 = 0.0f;
+		this->y1 = -0.9f;
+		this->rad = RADIUS;
+		this->dx = 0.005f;
+		this->dy = 0.005f;
+		this->xDir = -1.0f;
+		this->yDir = -0.5f;
+	};
 	~Circle() {};
 };
 
@@ -49,27 +57,42 @@ public:
 	void init();
 	void Barmove(int key);
 
-	Bar() {};
+	Bar() {
+		this->x = -0.5f;
+		this->y = -1.0f;
+		this->height = 0.05f;
+		this->lenght = 0.3f;
+	};
 	~Bar() {};
 };
 
 class Block
 {
 public:
-	int stay = 1;
+	int stay{};
 	GLfloat x{}, y{};
 	GLfloat height = 0.1f, lenght = 0.2f;
 	Rect collisionSquare{};
 
 	void init(GLfloat x1, GLfloat y1);
+
+	Block() {
+		this->stay = 1;
+	};
 };
 
-int checkpointInCircle(Bar bar, GLfloat x, GLfloat y);
+
+
+// 충돌 감지
 int collisionSquareCircle(Bar bar, Circle circle);
 int collisionSquareCircle2(Block bar, Circle circle);
-void Bound(Bar bar, Circle circle);
-void Bound2(Block *block, Circle circle);
+int checkpointInCircle(Bar bar, GLfloat x, GLfloat y);
+void Bound(Bar bar, Circle *circle);
+void Bound2(Block *block, Circle *circle);
+void Block_Bound(Block block[][MAX_X], int max_x, int max_y, Circle *ball);
+
+// 블록 생성
 void Block_init(Block block[][MAX_X], int max_x, int max_y);
-void Block_Bound(Block block[][MAX_X], int max_x, int max_y, Circle ball);
+
+// 블록삭제
 void Del(Block *block);
-GLubyte* LoadDIBitmap(const char* filename, BITMAPINFO** info);
