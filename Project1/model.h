@@ -79,6 +79,8 @@ public:
 	Block() {
 		this->stay = 1;
 	};
+
+	~Block() {}
 };
 
 
@@ -96,3 +98,5 @@ void Block_init(Block block[][MAX_X], int max_x, int max_y);
 
 // 블록삭제
 void Del(Block *block);
+
+//텍스처 매핑

@@ -26,6 +26,7 @@ void Circle::init()
 	glBegin(GL_TRIANGLE_FAN);
 	glVertex2f(x1, y1);
 
+
 	for (angle = 1.0f; angle < 361.0f; angle += 0.2f)
 	{
 		this->x2 = this->x1 + cos(angle) * rad;
@@ -91,8 +92,6 @@ void Bar::Barmove(int key)
 
 void Block::init(GLfloat x1, GLfloat y1)
 {
-	if (this->stay)
-	{
 		this->x = x1;
 		this->y = y1;
 		this->height = BLOCK_height;
@@ -117,7 +116,6 @@ void Block::init(GLfloat x1, GLfloat y1)
 		glVertex2f(x + this->lenght, y);
 		glVertex2f(x, y + this->height);
 		glEnd();
-	}
 }
 
 int checkpointInCircle(Circle c, GLfloat x, GLfloat y)
@@ -168,8 +166,7 @@ int collisionSquareCircle(Bar bar, Circle circle)
 
 int collisionSquareCircle2(Block bar, Circle circle)
 {
-	if (bar.stay)
-	{
+
 		// 위, 아래, 왼쪽, 오른쪽에 있는지 판단한다.
 		if ((bar.collisionSquare.Left < circle.x1 && circle.x1 < bar.collisionSquare.Right) &&
 			bar.collisionSquare.Bottom < circle.y1 && circle.y1 < bar.collisionSquare.Top)
@@ -203,23 +200,28 @@ int collisionSquareCircle2(Block bar, Circle circle)
 			if (checkpointInCircle(circle, bar.x + bar.lenght, bar.y))
 				return 3;
 		}
-	}
 	return 0;
 }
 
 void Bound(Bar bar, Circle *circle)
 {
+	GLfloat xvecter = circle->x1 - bar.x - (bar.lenght * 0.5f) *2.0f;
+	GLfloat yvecter = circle->y1 - bar.y - (bar.height * 0.5f);
+
+	xvecter = xvecter / sqrt(xvecter * xvecter + yvecter * yvecter);
+
 	switch (collisionSquareCircle(bar, *circle))
 	{
 	case 1:
-		circle->xDir = -circle->xDir;
+		circle->xDir = circle->xDir * -1.0f;
 		break;
 	case 2:
-		circle->yDir = -circle->yDir;
+		circle->xDir = xvecter;
+		circle->yDir = circle->yDir * -1.0f;
 		break;
 	case 3:
-		circle->xDir = -circle->xDir;
-		circle->yDir = -circle->yDir;
+		circle->xDir = xvecter;
+		circle->yDir = circle->yDir * -1.0f;
 		break;
 	}
 }
@@ -278,3 +280,4 @@ void Del(Block* block)
 {
 	block->stay--;
 }
+

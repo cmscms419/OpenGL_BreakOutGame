@@ -4,15 +4,12 @@
 Circle ball;
 Bar bar;
 Block block[MAX_Y][MAX_X];
-BITMAPINFO* info;
 
 int count = 0;
 
 void Display()
 {
 	glClear(GL_COLOR_BUFFER_BIT); // 전에 있는 원의 흔적을 지운다.
-
-	//LoadDIBitmap("texture1.bmp", &info);
 
 	bar.init();
 	ball.init();
