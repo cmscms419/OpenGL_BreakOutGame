@@ -5,20 +5,29 @@ Circle ball;
 Bar bar;
 Block block[MAX_Y][MAX_X];
 
+GLubyte* pbytes; // 데이터를 가리킬 포인터
+BITMAPINFO* info; // 비트맵 헤더 저장할 변수
+GLuint texture; // 텍스처의 수
+
 int count = 0;
+void draw();
+
 
 void Display()
 {
-	glClear(GL_COLOR_BUFFER_BIT); // 전에 있는 원의 흔적을 지운다.
+	//glClear(GL_COLOR_BUFFER_BIT); // 전에 있는 원의 흔적을 지운다.
 
-	bar.init();
-	ball.init();
-	Block_init(block, MAX_X, MAX_Y);
+	//bar.init();
+	//ball.init();
+	//Block_init(block, MAX_X, MAX_Y);
 
-	Bound(bar, &ball);
-	Block_Bound(block, MAX_X, MAX_Y, &ball);
 
-	ball.Circlemove();
+	//Bound(bar, &ball);
+	//Block_Bound(block, MAX_X, MAX_Y, &ball);
+
+	//ball.Circlemove();
+
+	draw();
 
 	glutSwapBuffers();
 }
@@ -61,6 +70,42 @@ void MyTimer(int Value) {
 	glutTimerFunc(5, MyTimer, NULL);
 }
 
+void initTexture()
+{
+	glGenTextures(1, &texture);
+
+	glBindTexture(GL_TEXTURE_2D, texture);
+	pbytes = LoadDIBitmap("bitmap2.bmp", &info);
+	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, 48, 48, 0, GL_RGB, GL_UNSIGNED_BYTE, pbytes);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+	glTexEnvi(GL_TEXTURE_ENV, GL_TEXTURE_ENV_COLOR, GL_MODULATE);
+	glEnable(GL_TEXTURE_2D);
+}
+
+void draw()
+{
+	glColor3f(1, 1, 1);
+	glBindTexture(GL_TEXTURE_2D, texture);
+	glTexGeni(GL_S, GL_TEXTURE_GEN_MODE, GL_SPHERE_MAP);
+	glBegin(GL_QUADS);
+	{
+		glTexCoord2f(0.0, 0.0);
+		glVertex2f(-0.5, -0.5);
+		glTexCoord2f(0, 1);
+		glVertex2f(-0.5, 0.5);
+		glTexCoord2f(1, 1);
+		glVertex2f(0.5, 0.5);
+		glTexCoord2f(1, 0);
+		glVertex2f(0.5, -0.5);
+	}
+	glEnd();
+
+
+}
+
 int main(int argc, char** argv)
 {
 
@@ -70,6 +115,7 @@ int main(int argc, char** argv)
 	glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGB); // 디스플레이 표면의 특징을 결정한다.
 	glutCreateWindow("OpenGL");
 
+	initTexture(); // Texture mapping
 	glutDisplayFunc(Display); // 그리기 전달함수 (인수는 그리기메서드)
 	glutReshapeFunc(reshape_func); // 윈도우 크기를 조절할 때, 사용할 함수를 지정한다.
 	glutKeyboardFunc(keyboard); // 키보드 입력

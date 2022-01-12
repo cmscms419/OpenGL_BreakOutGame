@@ -29,13 +29,24 @@
     <ClInclude Include="model.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
+    <ClInclude Include="resource.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <Image Include="awesomeface.png">
-      <Filter>소스 파일</Filter>
+    <ResourceCompile Include="Project1.rc">
+      <Filter>리소스 파일</Filter>
+    </ResourceCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="PikPng.png">
+      <Filter>리소스 파일</Filter>
     </Image>
-    <Image Include="awesomeface.bmp">
-      <Filter>소스 파일</Filter>
+    <Image Include="texture1.bmp">
+      <Filter>리소스 파일</Filter>
+    </Image>
+    <Image Include="bitmap2.bmp">
+      <Filter>리소스 파일</Filter>
     </Image>
   </ItemGroup>
 </Project>

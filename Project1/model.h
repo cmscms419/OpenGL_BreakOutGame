@@ -3,8 +3,11 @@
 
 #include <Windows.h>
 #include <GL/glut.h>
+#include <GL/gl.h>
+#include <GL/glu.h>
 #include <iostream>
 #include <random>
+
 
 #define RADIUS 0.03f
 
@@ -100,3 +103,4 @@ void Block_init(Block block[][MAX_X], int max_x, int max_y);
 void Del(Block *block);
 
 //텍스처 매핑
+GLubyte* LoadDIBitmap(const char* filename, BITMAPINFO** info);

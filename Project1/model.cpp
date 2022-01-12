@@ -43,7 +43,7 @@ void Circle::Circlemove()
 
 	// 원이 화면 범위를 벗어나게 되면 -1를 곱해서 방향을 바꾼다.
 	// 원의 이동 범위는 -1 ~ 1이다.
-	if ((this->x1 - this->rad <=-0.999) || (this->x1 + this->rad >=0.999))
+	if ((this->x1 - this->rad <= -0.999) || (this->x1 + this->rad >= 0.999))
 	{
 		xDir = -xDir;
 	}
@@ -92,30 +92,30 @@ void Bar::Barmove(int key)
 
 void Block::init(GLfloat x1, GLfloat y1)
 {
-		this->x = x1;
-		this->y = y1;
-		this->height = BLOCK_height;
-		this->lenght = BLOCK_lenght;
+	this->x = x1;
+	this->y = y1;
+	this->height = BLOCK_height;
+	this->lenght = BLOCK_lenght;
 
-		this->collisionSquare =
-		{
-			this->x - RADIUS,
-			this->x + this->lenght + RADIUS,
-			this->y + this->height + RADIUS,
-			this->y - RADIUS
-		};
+	this->collisionSquare =
+	{
+		this->x - RADIUS,
+		this->x + this->lenght + RADIUS,
+		this->y + this->height + RADIUS,
+		this->y - RADIUS
+	};
 
-		glColor3f(1.0, 1.0, 1.0);
+	glColor3f(1.0, 1.0, 1.0);
 
-		glBegin(GL_TRIANGLES);
-		glVertex2f(x, y);
-		glVertex2f(x + this->lenght, y);
-		glVertex2f(x, y + this->height);
+	glBegin(GL_TRIANGLES);
+	glVertex2f(x, y);
+	glVertex2f(x + this->lenght, y);
+	glVertex2f(x, y + this->height);
 
-		glVertex2f(x + this->lenght, y + this->height);
-		glVertex2f(x + this->lenght, y);
-		glVertex2f(x, y + this->height);
-		glEnd();
+	glVertex2f(x + this->lenght, y + this->height);
+	glVertex2f(x + this->lenght, y);
+	glVertex2f(x, y + this->height);
+	glEnd();
 }
 
 int checkpointInCircle(Circle c, GLfloat x, GLfloat y)
@@ -167,45 +167,45 @@ int collisionSquareCircle(Bar bar, Circle circle)
 int collisionSquareCircle2(Block bar, Circle circle)
 {
 
-		// 위, 아래, 왼쪽, 오른쪽에 있는지 판단한다.
-		if ((bar.collisionSquare.Left < circle.x1 && circle.x1 < bar.collisionSquare.Right) &&
-			bar.collisionSquare.Bottom < circle.y1 && circle.y1 < bar.collisionSquare.Top)
-		{
-			// 왼쪽
-			if (bar.x > circle.x1 && bar.y < circle.y1 && circle.y1 < bar.y + bar.height)
-				return 1;
-			// 오른쪽
-			if (bar.x + bar.lenght < circle.x1 && bar.y < circle.y1 && circle.y1 < bar.y + bar.height)
-				return 1;
-			// 아래
-			if (bar.y > circle.y1 && bar.x < circle.x1 && circle.x1 < bar.x + bar.lenght)
-				return 2;
-			// 위
-			if (bar.y + bar.height < circle.y1 && bar.x < circle.x1 && circle.x1 < bar.x + bar.lenght)
-				return 2;
-		}
-		// 좌상단, 좌하단, 우상단, 우하단에 있는 것을 판단한다.
-		else
-		{
-			// 좌상단
-			if (checkpointInCircle(circle, bar.x, bar.y + bar.height))
-				return 3;
-			// 좌하단
-			if (checkpointInCircle(circle, bar.x, bar.y))
-				return 3;
-			// 우상단
-			if (checkpointInCircle(circle, bar.x + bar.lenght, bar.y + bar.height))
-				return 3;
-			// 우하단
-			if (checkpointInCircle(circle, bar.x + bar.lenght, bar.y))
-				return 3;
-		}
+	// 위, 아래, 왼쪽, 오른쪽에 있는지 판단한다.
+	if ((bar.collisionSquare.Left < circle.x1 && circle.x1 < bar.collisionSquare.Right) &&
+		bar.collisionSquare.Bottom < circle.y1 && circle.y1 < bar.collisionSquare.Top)
+	{
+		// 왼쪽
+		if (bar.x > circle.x1 && bar.y < circle.y1 && circle.y1 < bar.y + bar.height)
+			return 1;
+		// 오른쪽
+		if (bar.x + bar.lenght < circle.x1 && bar.y < circle.y1 && circle.y1 < bar.y + bar.height)
+			return 1;
+		// 아래
+		if (bar.y > circle.y1 && bar.x < circle.x1 && circle.x1 < bar.x + bar.lenght)
+			return 2;
+		// 위
+		if (bar.y + bar.height < circle.y1 && bar.x < circle.x1 && circle.x1 < bar.x + bar.lenght)
+			return 2;
+	}
+	// 좌상단, 좌하단, 우상단, 우하단에 있는 것을 판단한다.
+	else
+	{
+		// 좌상단
+		if (checkpointInCircle(circle, bar.x, bar.y + bar.height))
+			return 3;
+		// 좌하단
+		if (checkpointInCircle(circle, bar.x, bar.y))
+			return 3;
+		// 우상단
+		if (checkpointInCircle(circle, bar.x + bar.lenght, bar.y + bar.height))
+			return 3;
+		// 우하단
+		if (checkpointInCircle(circle, bar.x + bar.lenght, bar.y))
+			return 3;
+	}
 	return 0;
 }
 
-void Bound(Bar bar, Circle *circle)
+void Bound(Bar bar, Circle* circle)
 {
-	GLfloat xvecter = circle->x1 - bar.x - (bar.lenght * 0.5f) *2.0f;
+	GLfloat xvecter = circle->x1 - bar.x - (bar.lenght * 0.5f) * 2.0f;
 	GLfloat yvecter = circle->y1 - bar.y - (bar.height * 0.5f);
 
 	xvecter = xvecter / sqrt(xvecter * xvecter + yvecter * yvecter);
@@ -226,7 +226,7 @@ void Bound(Bar bar, Circle *circle)
 	}
 }
 
-void Bound2(Block* block, Circle *circle)
+void Bound2(Block* block, Circle* circle)
 {
 	switch (collisionSquareCircle2(*block, *circle))
 	{
@@ -260,7 +260,7 @@ void Block_init(Block block[][MAX_X], int max_x, int max_y)
 	}
 }
 
-void Block_Bound(Block block[][MAX_X], int max_x, int max_y, Circle *ball)
+void Block_Bound(Block block[][MAX_X], int max_x, int max_y, Circle* ball)
 {
 	for (int i = 0; i < MAX_Y; i++)
 	{
@@ -281,3 +281,69 @@ void Del(Block* block)
 	block->stay--;
 }
 
+
+// [출처] [OpenGL] 예제12번을 응용한 텍스쳐매핑 예제16 | 작성자 송주씨
+// https://blog.naver.com/bluefallsky/140119335319
+GLubyte* LoadDIBitmap(const char* filename, BITMAPINFO** info)
+{
+	FILE* fp;
+	GLubyte* bits;
+	int bitsize, infosize;
+	BITMAPFILEHEADER header;
+
+	// 바이너리 읽기 모드로 파일을 연다
+	if ((fp = fopen(filename, "rb")) == NULL)
+		return NULL;
+
+	// 비트맵 파일 헤더를 읽는다.
+	if (fread(&header, sizeof(BITMAPFILEHEADER), 1, fp) < 1) {
+		fclose(fp);
+		return NULL;
+	}
+
+	// 파일이 BMP 파일인지 확인한다.
+	if (header.bfType != 'MB') {
+		fclose(fp);
+		return NULL;
+	}
+
+	// BITMAPINFOHEADER 위치로 간다.
+	infosize = header.bfOffBits - sizeof(BITMAPFILEHEADER);
+
+	// 비트맵 이미지 데이터를 넣을 메모리 할당을 한다.
+	if ((*info = (BITMAPINFO*)malloc(infosize)) == NULL) {
+		fclose(fp);
+		exit(0);
+		return NULL;
+	}
+
+	// 비트맵 인포 헤더를 읽는다.
+	if (fread(*info, 1, infosize, fp) < (unsigned int)infosize) {
+		free(*info);
+		fclose(fp);
+		return NULL;
+	}
+
+	// 비트맵의 크기 설정
+	if ((bitsize = (*info)->bmiHeader.biSizeImage) == 0)
+		bitsize = ((*info)->bmiHeader.biWidth *
+			(*info)->bmiHeader.biBitCount + 7) / 8.0 *
+		abs((*info)->bmiHeader.biHeight);
+
+	// 비트맵의 크기만큼 메모리를 할당한다.
+	if ((bits = (unsigned char*)malloc(bitsize)) == NULL) {
+		free(*info);
+		fclose(fp);
+		return NULL;
+	}
+
+	// 비트맵 데이터를 bit(GLubyte 타입)에 저장한다.
+	if (fread(bits, 1, bitsize, fp) < (unsigned int)bitsize) {
+		free(*info); free(bits);
+		fclose(fp);
+		return NULL;
+	}
+
+	fclose(fp);
+	return bits;
+}
