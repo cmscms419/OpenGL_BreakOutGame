@@ -148,15 +148,17 @@
   <ItemGroup>
     <ClInclude Include="model.h" />
     <ClInclude Include="resource.h" />
+    <ClInclude Include="resource1.h" />
     <ClInclude Include="sourse.h" />
   </ItemGroup>
   <ItemGroup>
-    <ResourceCompile Include="Project1.rc" />
-  </ItemGroup>
-  <ItemGroup>
-    <Image Include="bitmap2.bmp" />
+    <Image Include="bitmap1.bmp" />
+    <Image Include="PikPng.bmp" />
     <Image Include="PikPng.png" />
     <Image Include="texture1.bmp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="Project11.rc" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

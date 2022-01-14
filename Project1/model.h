@@ -1,5 +1,6 @@
 
 #define _CRT_SECURE_NO_WARNINGS 
+#define STB_IMAGE_IMPLEMENTATION
 
 #include <Windows.h>
 #include <GL/glut.h>

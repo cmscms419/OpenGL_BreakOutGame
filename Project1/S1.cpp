@@ -1,4 +1,5 @@
 #include "model.h"
+#include <stb_image.h>
 //#include "sourse.h"
 
 Circle ball;
@@ -8,6 +9,7 @@ Block block[MAX_Y][MAX_X];
 GLubyte* pbytes; // 데이터를 가리킬 포인터
 BITMAPINFO* info; // 비트맵 헤더 저장할 변수
 GLuint texture; // 텍스처의 수
+GLuint texture2;
 
 int count = 0;
 void draw();
@@ -15,7 +17,7 @@ void draw();
 
 void Display()
 {
-	//glClear(GL_COLOR_BUFFER_BIT); // 전에 있는 원의 흔적을 지운다.
+	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT); // 전에 있는 원의 흔적을 지운다.
 
 	//bar.init();
 	//ball.init();
@@ -72,34 +74,52 @@ void MyTimer(int Value) {
 
 void initTexture()
 {
-	glGenTextures(1, &texture);
+	glGenTextures(2, &texture);
+
+	pbytes = LoadDIBitmap("texture1.bmp", &info);
 
 	glBindTexture(GL_TEXTURE_2D, texture);
-	pbytes = LoadDIBitmap("bitmap2.bmp", &info);
-	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, 48, 48, 0, GL_RGB, GL_UNSIGNED_BYTE, pbytes);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
-	glTexEnvi(GL_TEXTURE_ENV, GL_TEXTURE_ENV_COLOR, GL_MODULATE);
+	glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+	glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+	glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP);
+	glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP);
+	
+	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, info->bmiHeader.biWidth,info->bmiHeader.biHeight, 1, GL_RGB, GL_UNSIGNED_BYTE, pbytes);
+	
 	glEnable(GL_TEXTURE_2D);
+	glTexEnvi(GL_TEXTURE_ENV, GL_TEXTURE_ENV_COLOR, GL_MODULATE);
+
+	int width, height, nrChannels;
+	unsigned char* data = stbi_load("container.jpg", &width, &height, &nrChannels, 0);
+
+	glBindTexture(GL_TEXTURE_2D, texture2);
+	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, data);
+	glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+	glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+	glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP);
+	glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP);
+
+	glEnable(GL_TEXTURE_2D);
+	glTexEnvi(GL_TEXTURE_ENV, GL_TEXTURE_ENV_COLOR, GL_MODULATE);
+	stbi_image_free(data);
+	
+
 }
 
 void draw()
 {
-	glColor3f(1, 1, 1);
-	glBindTexture(GL_TEXTURE_2D, texture);
+	glBindTexture(GL_TEXTURE_2D, texture2);
 	glTexGeni(GL_S, GL_TEXTURE_GEN_MODE, GL_SPHERE_MAP);
 	glBegin(GL_QUADS);
 	{
-		glTexCoord2f(0.0, 0.0);
-		glVertex2f(-0.5, -0.5);
 		glTexCoord2f(0, 1);
 		glVertex2f(-0.5, 0.5);
-		glTexCoord2f(1, 1);
-		glVertex2f(0.5, 0.5);
+		glTexCoord2f(0, 0);
+		glVertex2f(-0.5, -0.5);
 		glTexCoord2f(1, 0);
 		glVertex2f(0.5, -0.5);
+		glTexCoord2f(1, 1);
+		glVertex2f(0.5, 0.5);
 	}
 	glEnd();
 
