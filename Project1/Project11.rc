@@ -52,7 +52,20 @@ END
 
 IDB_BITMAP1             BITMAP                  "bitmap1.bmp"
 
-IDB_BITMAP2             BITMAP                  "PikPng.bmp"
+IDB_BITMAP2             BITMAP                  "C:\\Code_Study\\OpenGL\\Project1\\PikPng.bmp"
+
+IDB_BITMAP3             BITMAP                  "LAND2.BMP"
+
+IDB_BITMAP4             BITMAP                  "c:\\code_study\\opengl\\project1\\bitmap4.bmp"
+
+IDB_BITMAP5             BITMAP                  "c:\\code_study\\opengl\\project1\\bitmap5.bmp"
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Accelerator
+//
+
 
 #endif    // 한국어(대한민국) resources
 /////////////////////////////////////////////////////////////////////////////

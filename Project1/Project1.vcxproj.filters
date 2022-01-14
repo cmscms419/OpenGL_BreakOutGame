@@ -37,16 +37,22 @@
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <Image Include="PikPng.png">
+    <Image Include="texture1.bmp">
       <Filter>리소스 파일</Filter>
     </Image>
-    <Image Include="texture1.bmp">
+    <Image Include="LAND2.BMP">
+      <Filter>리소스 파일</Filter>
+    </Image>
+    <Image Include="PikPng.bmp">
       <Filter>리소스 파일</Filter>
     </Image>
     <Image Include="bitmap1.bmp">
       <Filter>리소스 파일</Filter>
     </Image>
-    <Image Include="PikPng.bmp">
+    <Image Include="bitmap4.bmp">
+      <Filter>리소스 파일</Filter>
+    </Image>
+    <Image Include="bitmap5.bmp">
       <Filter>리소스 파일</Filter>
     </Image>
   </ItemGroup>

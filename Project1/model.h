@@ -58,7 +58,7 @@ public:
 	GLfloat height{}, lenght{};
 	Rect collisionSquare{};
 
-	void init();
+	void init(GLuint texture);
 	void Barmove(int key);
 
 	Bar() {
@@ -102,6 +102,3 @@ void Block_init(Block block[][MAX_X], int max_x, int max_y);
 
 // 블록삭제
 void Del(Block *block);
-
-//텍스처 매핑
-GLubyte* LoadDIBitmap(const char* filename, BITMAPINFO** info);

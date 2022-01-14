@@ -8,8 +8,7 @@ Block block[MAX_Y][MAX_X];
 
 GLubyte* pbytes; // 데이터를 가리킬 포인터
 BITMAPINFO* info; // 비트맵 헤더 저장할 변수
-GLuint texture; // 텍스처의 수
-GLuint texture2;
+GLuint texture[2]; // 텍스처의 수
 
 int count = 0;
 void draw();
@@ -19,7 +18,7 @@ void Display()
 {
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT); // 전에 있는 원의 흔적을 지운다.
 
-	//bar.init();
+	bar.init(texture[0]);
 	//ball.init();
 	//Block_init(block, MAX_X, MAX_Y);
 
@@ -74,55 +73,49 @@ void MyTimer(int Value) {
 
 void initTexture()
 {
-	glGenTextures(2, &texture);
+	glGenTextures(2, texture);
+	int width, height, nrChannels;
+	unsigned char* data = stbi_load("bitmap5.bmp", &width, &height, &nrChannels, 0);
 
-	pbytes = LoadDIBitmap("texture1.bmp", &info);
-
-	glBindTexture(GL_TEXTURE_2D, texture);
+	glBindTexture(GL_TEXTURE_2D, texture[0]);
 	glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
 	glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
 	glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP);
 	glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP);
 	
-	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, info->bmiHeader.biWidth,info->bmiHeader.biHeight, 1, GL_RGB, GL_UNSIGNED_BYTE, pbytes);
-	
-	glEnable(GL_TEXTURE_2D);
-	glTexEnvi(GL_TEXTURE_ENV, GL_TEXTURE_ENV_COLOR, GL_MODULATE);
+	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 1, GL_RGB, GL_UNSIGNED_BYTE, data);
 
-	int width, height, nrChannels;
-	unsigned char* data = stbi_load("container.jpg", &width, &height, &nrChannels, 0);
+	stbi_image_free(data);
 
-	glBindTexture(GL_TEXTURE_2D, texture2);
+	data = stbi_load("LAND2.BMP", &width, &height, &nrChannels, 0);
+
+	glBindTexture(GL_TEXTURE_2D, texture[1]);
 	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, data);
 	glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
-	glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+	glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 	glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP);
 	glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP);
 
 	glEnable(GL_TEXTURE_2D);
 	glTexEnvi(GL_TEXTURE_ENV, GL_TEXTURE_ENV_COLOR, GL_MODULATE);
 	stbi_image_free(data);
-	
-
 }
 
 void draw()
 {
-	glBindTexture(GL_TEXTURE_2D, texture2);
-	glTexGeni(GL_S, GL_TEXTURE_GEN_MODE, GL_SPHERE_MAP);
+	glBindTexture(GL_TEXTURE_2D, texture[1]);
 	glBegin(GL_QUADS);
 	{
-		glTexCoord2f(0, 1);
-		glVertex2f(-0.5, 0.5);
 		glTexCoord2f(0, 0);
+		glVertex2f(-0.5, 0.5);
+		glTexCoord2f(0, 1);
 		glVertex2f(-0.5, -0.5);
-		glTexCoord2f(1, 0);
-		glVertex2f(0.5, -0.5);
 		glTexCoord2f(1, 1);
+		glVertex2f(0.5, -0.5);
+		glTexCoord2f(1, 0);
 		glVertex2f(0.5, 0.5);
 	}
 	glEnd();
-
 
 }
 

@@ -153,8 +153,10 @@
   </ItemGroup>
   <ItemGroup>
     <Image Include="bitmap1.bmp" />
+    <Image Include="bitmap4.bmp" />
+    <Image Include="bitmap5.bmp" />
+    <Image Include="LAND2.BMP" />
     <Image Include="PikPng.bmp" />
-    <Image Include="PikPng.png" />
     <Image Include="texture1.bmp" />
   </ItemGroup>
   <ItemGroup>
