@@ -1,6 +1,5 @@
 #include "model.h"
 #include <stb_image.h>
-//#include "sourse.h"
 
 Circle ball;
 Bar bar;
@@ -11,25 +10,22 @@ BITMAPINFO* info; // 비트맵 헤더 저장할 변수
 GLuint texture[2]; // 텍스처의 수
 
 int count = 0;
-void draw();
-
 
 void Display()
 {
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT); // 전에 있는 원의 흔적을 지운다.
 
 	bar.init(texture[0]);
-	//ball.init();
-	//Block_init(block, MAX_X, MAX_Y);
+	ball.init();
+	Block_init(block, MAX_X, MAX_Y);
 
+	Bound(bar, &ball);
+	Block_Bound(block, MAX_X, MAX_Y, &ball);
 
-	//Bound(bar, &ball);
-	//Block_Bound(block, MAX_X, MAX_Y, &ball);
+	ball.Circlemove();
 
-	//ball.Circlemove();
-
-	draw();
-
+	//draw(texture[1]);
+	
 	glutSwapBuffers();
 }
 
@@ -99,24 +95,6 @@ void initTexture()
 	glEnable(GL_TEXTURE_2D);
 	glTexEnvi(GL_TEXTURE_ENV, GL_TEXTURE_ENV_COLOR, GL_MODULATE);
 	stbi_image_free(data);
-}
-
-void draw()
-{
-	glBindTexture(GL_TEXTURE_2D, texture[1]);
-	glBegin(GL_QUADS);
-	{
-		glTexCoord2f(0, 0);
-		glVertex2f(-0.5, 0.5);
-		glTexCoord2f(0, 1);
-		glVertex2f(-0.5, -0.5);
-		glTexCoord2f(1, 1);
-		glVertex2f(0.5, -0.5);
-		glTexCoord2f(1, 0);
-		glVertex2f(0.5, 0.5);
-	}
-	glEnd();
-
 }
 
 int main(int argc, char** argv)

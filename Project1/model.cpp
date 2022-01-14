@@ -95,31 +95,33 @@ void Bar::Barmove(int key)
 
 void Block::init(GLfloat x1, GLfloat y1)
 {
-	this->x = x1;
-	this->y = y1;
-	this->height = BLOCK_height;
-	this->lenght = BLOCK_lenght;
-
-	this->collisionSquare =
+	if (this->stay) 
 	{
-		this->x - RADIUS,
-		this->x + this->lenght + RADIUS,
-		this->y + this->height + RADIUS,
-		this->y - RADIUS
-	};
+		this->x = x1;
+		this->y = y1;
+		this->height = BLOCK_height;
+		this->lenght = BLOCK_lenght;
 
+		this->collisionSquare =
+		{
+			this->x - RADIUS,
+			this->x + this->lenght + RADIUS,
+			this->y + this->height + RADIUS,
+			this->y - RADIUS
+		};
 
-	glColor3f(1.0, 1.0, 1.0);
+		glColor3f(1.0, 1.0, 1.0);
 
-	glBegin(GL_TRIANGLES);
-	glVertex2f(x, y);
-	glVertex2f(x + this->lenght, y);
-	glVertex2f(x, y + this->height);
+		glBegin(GL_TRIANGLES);
+		glVertex2f(x, y);
+		glVertex2f(x + this->lenght, y);
+		glVertex2f(x, y + this->height);
 
-	glVertex2f(x + this->lenght, y + this->height);
-	glVertex2f(x + this->lenght, y);
-	glVertex2f(x, y + this->height);
-	glEnd();
+		glVertex2f(x + this->lenght, y + this->height);
+		glVertex2f(x + this->lenght, y);
+		glVertex2f(x, y + this->height);
+		glEnd();
+	}
 }
 
 int checkpointInCircle(Circle c, GLfloat x, GLfloat y)
@@ -170,7 +172,6 @@ int collisionSquareCircle(Bar bar, Circle circle)
 
 int collisionSquareCircle2(Block bar, Circle circle)
 {
-
 	// 위, 아래, 왼쪽, 오른쪽에 있는지 판단한다.
 	if ((bar.collisionSquare.Left < circle.x1 && circle.x1 < bar.collisionSquare.Right) &&
 		bar.collisionSquare.Bottom < circle.y1 && circle.y1 < bar.collisionSquare.Top)
@@ -270,17 +271,22 @@ void Block_Bound(Block block[][MAX_X], int max_x, int max_y, Circle* ball)
 	{
 		for (int m = 0; m < MAX_X; m++)
 		{
-			Bound2(&block[i][m], ball);
+			if(&block[i][m])
+				Bound2(&block[i][m], ball);
 		}
 		blc_x = BLOCK_INI_X;
 		blc_y = blc_y - 0.1f;
 	}
-
 	blc_x = BLOCK_INI_X;
 	blc_y = BLOCK_INI_Y;
 }
 
 void Del(Block* block)
 {
-	block->stay--;
+	block->stay = NULL;
+	block->x = _NULL_LOC;
+	block->y = _NULL_LOC;
+	block->height = NULL;
+	block->lenght = NULL;
+	block->collisionSquare = { NULL,NULL,NULL,NULL };
 }

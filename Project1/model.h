@@ -16,7 +16,7 @@
 #define MAX_X 10
 #define AOC 0.003f		// 변화량
 #define SOL_F07 0.01f // bar의 대각선을 구현하기 위해서, 값을 넣어준다.
-
+#define _NULL_LOC 999 // 제거된 block들이 가는 곳이다.
 //block
 #define BLOCK_lenght 0.1f
 #define BLOCK_height 0.05f
@@ -102,3 +102,7 @@ void Block_init(Block block[][MAX_X], int max_x, int max_y);
 
 // 블록삭제
 void Del(Block *block);
+
+// 연습
+void draw(GLuint texture);
+void draw2();
