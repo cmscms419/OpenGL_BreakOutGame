@@ -16,16 +16,18 @@ void Display()
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT); // 전에 있는 원의 흔적을 지운다.
 
 	bar.init(texture[0]);
+
 	ball.init();
-	Block_init(block, MAX_X, MAX_Y);
+
+	Block_init(block, MAX_X, MAX_Y, texture[1]);
+
 
 	Bound(bar, &ball);
 	Block_Bound(block, MAX_X, MAX_Y, &ball);
 
+	//draw(texture[1]);
 	ball.Circlemove();
 
-	//draw(texture[1]);
-	
 	glutSwapBuffers();
 }
 
@@ -78,7 +80,7 @@ void initTexture()
 	glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
 	glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP);
 	glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP);
-	
+
 	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 1, GL_RGB, GL_UNSIGNED_BYTE, data);
 
 	stbi_image_free(data);
@@ -86,14 +88,14 @@ void initTexture()
 	data = stbi_load("LAND2.BMP", &width, &height, &nrChannels, 0);
 
 	glBindTexture(GL_TEXTURE_2D, texture[1]);
-	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, data);
 	glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
-	glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+	glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
 	glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP);
 	glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP);
 
-	glEnable(GL_TEXTURE_2D);
-	glTexEnvi(GL_TEXTURE_ENV, GL_TEXTURE_ENV_COLOR, GL_MODULATE);
+	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, data);
+
+	glTexEnvi(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
 	stbi_image_free(data);
 }
 

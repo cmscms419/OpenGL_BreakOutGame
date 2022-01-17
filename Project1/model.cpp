@@ -1,5 +1,6 @@
 #include "model.h"
 
+
 // Bar
 static GLfloat bar_x = -0.5f, bar_y = -1.0f; // bar의 초기 위치
 static GLfloat bDir = 1.0f; // bar의 방향
@@ -14,6 +15,9 @@ static GLfloat blc_y = BLOCK_INI_Y;
 static GLfloat blc_l = 0.2f;
 static GLfloat blc_h = 0.1f;
 
+static GLfloat blcTex_x = 0.0f;
+static GLfloat blcTex_y = 0.0f;
+
 //Color
 static GLfloat r;
 static GLfloat g;
@@ -21,11 +25,10 @@ static GLfloat b;
 
 void Circle::init()
 {
-	glColor3f(1.0, 1.0, 1.0);
 
+	glColor3f(1.0, 1.0, 1.0);
 	glBegin(GL_TRIANGLE_FAN);
 	glVertex2f(x1, y1);
-
 
 	for (angle = 1.0f; angle < 361.0f; angle += 0.2f)
 	{
@@ -64,10 +67,11 @@ void Bar::init(GLuint texture)
 		this->y - RADIUS
 	};
 
-	//glClear(GL_COLOR_BUFFER_BIT);
-	glBindTexture(GL_TEXTURE_2D, texture);
-	glBegin(GL_QUADS);
+	glEnable(GL_TEXTURE_2D);
 	{
+		glBindTexture(GL_TEXTURE_2D, texture);
+		
+		glBegin(GL_QUADS);
 		glTexCoord2f(0, 0);
 		glVertex2f(x, y);
 		glTexCoord2f(0, 1);
@@ -76,8 +80,9 @@ void Bar::init(GLuint texture)
 		glVertex2f(x + this->lenght, y + this->height);
 		glTexCoord2f(1, 0);
 		glVertex2f(x + this->lenght, y);
+		glEnd();
 	}
-	glEnd();
+	glDisable(GL_TEXTURE_2D);
 }
 
 void Bar::Barmove(int key)
@@ -93,7 +98,7 @@ void Bar::Barmove(int key)
 	}
 }
 
-void Block::init(GLfloat x1, GLfloat y1)
+void Block::init(GLfloat x1, GLfloat y1, GLuint texture)
 {
 	if (this->stay) 
 	{
@@ -109,18 +114,28 @@ void Block::init(GLfloat x1, GLfloat y1)
 			this->y + this->height + RADIUS,
 			this->y - RADIUS
 		};
+		
+		glEnable(GL_TEXTURE_2D);
+		{
+			glBindTexture(GL_TEXTURE_2D, texture);
+			
+			glBegin(GL_QUADS);
+			
+			glTexCoord2f(blcTex_x, blcTex_y + 0.25f);
+			glVertex2f(x, y);
+			
+			glTexCoord2f(blcTex_x + 0.06f, blcTex_y + 0.25f);
+			glVertex2f(x + this->lenght, y);
 
-		glColor3f(1.0, 1.0, 1.0);
-
-		glBegin(GL_TRIANGLES);
-		glVertex2f(x, y);
-		glVertex2f(x + this->lenght, y);
-		glVertex2f(x, y + this->height);
-
-		glVertex2f(x + this->lenght, y + this->height);
-		glVertex2f(x + this->lenght, y);
-		glVertex2f(x, y + this->height);
-		glEnd();
+			glTexCoord2f(blcTex_x + 0.06f, blcTex_y);
+			glVertex2f(x + this->lenght, y + this->height);
+			
+			glTexCoord2f(blcTex_x, blcTex_y);
+			glVertex2f(x, y + this->height);
+		
+			glEnd();
+		}
+		glDisable(GL_TEXTURE_2D);
 	}
 }
 
@@ -210,23 +225,30 @@ int collisionSquareCircle2(Block bar, Circle circle)
 
 void Bound(Bar bar, Circle* circle)
 {
-	GLfloat xvecter = circle->x1 - bar.x - (bar.lenght * 0.5f) * 2.0f;
+	GLfloat xvecter = circle->x1 - bar.x - (bar.lenght * 0.5f);
 	GLfloat yvecter = circle->y1 - bar.y - (bar.height * 0.5f);
-
-	xvecter = xvecter / sqrt(xvecter * xvecter + yvecter * yvecter);
+	GLfloat nor = sqrt(xvecter * xvecter + yvecter * yvecter);
 
 	switch (collisionSquareCircle(bar, *circle))
 	{
 	case 1:
-		circle->xDir = circle->xDir * -1.0f;
+		circle->xDir *= -1.0f;
 		break;
 	case 2:
+		xvecter = xvecter / nor;
+		
 		circle->xDir = xvecter;
-		circle->yDir = circle->yDir * -1.0f;
+		circle->yDir *= -1.0f;
+
+		printf("circle->xDir = %f\n", xvecter);
 		break;
 	case 3:
+		xvecter = xvecter / nor;
+		
 		circle->xDir = xvecter;
-		circle->yDir = circle->yDir * -1.0f;
+		circle->yDir *= -1.0f;
+
+		printf("circle->xDir = %f\n", xvecter);
 		break;
 	}
 }
@@ -251,18 +273,24 @@ void Bound2(Block* block, Circle* circle)
 	}
 }
 
-void Block_init(Block block[][MAX_X], int max_x, int max_y)
+void Block_init(Block block[][MAX_X], int max_x, int max_y, GLuint texture)
 {
 	for (int i = 0; i < max_y; i++)
 	{
 		for (int m = 0; m < max_x; m++)
 		{
-			block[i][m].init(blc_x, blc_y);
+			block[i][m].init(blc_x, blc_y, texture);
 			blc_x += 0.12f;
+			blcTex_x += 0.06f;
 		}
 		blc_x = BLOCK_INI_X;
-		blc_y = blc_y - 0.1f;
+		blc_y -= 0.1f;
+
+		blcTex_x = 0;
+		blcTex_y += 0.25f;
 	}
+	blc_y = BLOCK_INI_Y;
+	blcTex_y = 0.0f;
 }
 
 void Block_Bound(Block block[][MAX_X], int max_x, int max_y, Circle* ball)
@@ -275,9 +303,8 @@ void Block_Bound(Block block[][MAX_X], int max_x, int max_y, Circle* ball)
 				Bound2(&block[i][m], ball);
 		}
 		blc_x = BLOCK_INI_X;
-		blc_y = blc_y - 0.1f;
+		blc_y += 0.1f;
 	}
-	blc_x = BLOCK_INI_X;
 	blc_y = BLOCK_INI_Y;
 }
 
