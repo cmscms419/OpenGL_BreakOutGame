@@ -23,20 +23,24 @@ static GLfloat r;
 static GLfloat g;
 static GLfloat b;
 
-void Circle::init()
+void Circle::init(GLuint texture)
 {
+	glEnable(GL_TEXTURE_2D);
+	glBindTexture(GL_TEXTURE_2D, texture);
 
-	glColor3f(1.0, 1.0, 1.0);
 	glBegin(GL_TRIANGLE_FAN);
+	glTexCoord2f(0.5, 0.5);
 	glVertex2f(x1, y1);
 
 	for (angle = 1.0f; angle < 361.0f; angle += 0.2f)
 	{
 		this->x2 = this->x1 + cos(angle) * rad;
 		this->y2 = this->y1 + sin(angle) * rad;
+		glTexCoord2f(0.5, 0.5);
 		glVertex2f(x2, y2);
 	}
 	glEnd();
+	glDisable(GL_TEXTURE_2D);
 }
 
 void Circle::Circlemove()

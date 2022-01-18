@@ -7,25 +7,23 @@ Block block[MAX_Y][MAX_X];
 
 GLubyte* pbytes; // 데이터를 가리킬 포인터
 BITMAPINFO* info; // 비트맵 헤더 저장할 변수
-GLuint texture[2]; // 텍스처의 수
+GLuint texture[3]; // 텍스처의 수
 
 int count = 0;
 
 void Display()
 {
+	// 화면과 깊이 버퍼를 지움
+	//glClearColor(1.0, 0.24, 0.5, 0);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT); // 전에 있는 원의 흔적을 지운다.
 
-	bar.init(texture[0]);
-
-	ball.init();
-
+	bar.init(texture[2]);
+	ball.init(texture[0]);
 	Block_init(block, MAX_X, MAX_Y, texture[1]);
-
+	glFlush();
 
 	Bound(bar, &ball);
 	Block_Bound(block, MAX_X, MAX_Y, &ball);
-
-	//draw(texture[1]);
 	ball.Circlemove();
 
 	glutSwapBuffers();
@@ -71,7 +69,7 @@ void MyTimer(int Value) {
 
 void initTexture()
 {
-	glGenTextures(2, texture);
+	glGenTextures(3, texture);
 	int width, height, nrChannels;
 	unsigned char* data = stbi_load("bitmap5.bmp", &width, &height, &nrChannels, 0);
 
@@ -81,13 +79,25 @@ void initTexture()
 	glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP);
 	glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP);
 
-	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 1, GL_RGB, GL_UNSIGNED_BYTE, data);
+	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, data);
 
 	stbi_image_free(data);
 
 	data = stbi_load("LAND2.BMP", &width, &height, &nrChannels, 0);
 
 	glBindTexture(GL_TEXTURE_2D, texture[1]);
+	glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+	glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+	glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP);
+	glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP);
+
+	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, data);
+
+	stbi_image_free(data);
+
+	data = stbi_load("bitmap4.bmp", &width, &height, &nrChannels, 0);
+
+	glBindTexture(GL_TEXTURE_2D, texture[2]);
 	glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
 	glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
 	glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP);
@@ -105,7 +115,7 @@ int main(int argc, char** argv)
 	glutInit(&argc, argv);
 	glutInitWindowSize(800, 800);
 	glutInitWindowPosition(100, 100); // 실행창을 어디 위치에 보여줄지 표시해 준다.
-	glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGB); // 디스플레이 표면의 특징을 결정한다.
+	glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGB | GLUT_DEPTH); // 디스플레이 표면의 특징을 결정한다.
 	glutCreateWindow("OpenGL");
 
 	initTexture(); // Texture mapping

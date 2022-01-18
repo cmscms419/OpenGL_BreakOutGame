@@ -34,7 +34,7 @@ public:
 	GLfloat rad{};
 	float angle{};
 
-	void init();
+	void init(GLuint texture);
 	void Circlemove();
 
 	Circle() {
