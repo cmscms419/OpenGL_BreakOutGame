@@ -55,6 +55,9 @@
     <Image Include="bitmap5.bmp">
       <Filter>리소스 파일</Filter>
     </Image>
+    <Image Include="flowers-g4c0f20116_1920.png">
+      <Filter>리소스 파일</Filter>
+    </Image>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Project11.rc">

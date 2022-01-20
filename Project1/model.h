@@ -103,4 +103,4 @@ void Del(Block *block);
 
 // 연습
 void draw(GLuint texture);
-void draw2();
+void backGround(GLuint texture);

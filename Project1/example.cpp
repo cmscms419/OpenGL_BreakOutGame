@@ -1,6 +1,5 @@
 #include "model.h"
 
-
 void draw(GLuint texture)
 {
 	glLoadIdentity();
@@ -23,9 +22,4 @@ void draw(GLuint texture)
 	}
 	glEnd();
 	glDisable(GL_TEXTURE_2D);
-}
-
-void draw2()
-{
-
 }

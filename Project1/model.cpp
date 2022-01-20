@@ -23,6 +23,9 @@ static GLfloat r;
 static GLfloat g;
 static GLfloat b;
 
+static GLuint base;
+
+
 void Circle::init(GLuint texture)
 {
 	glEnable(GL_TEXTURE_2D);
@@ -97,7 +100,7 @@ void Bar::Barmove(int key)
 		this->x += bDir * BARSPEED;
 		break;
 	case GLUT_KEY_LEFT:
-		this->x += -bDir * BARSPEED;
+		this->x -= bDir * BARSPEED;
 		break;
 	}
 }
@@ -122,7 +125,6 @@ void Block::init(GLfloat x1, GLfloat y1, GLuint texture)
 		glEnable(GL_TEXTURE_2D);
 		{
 			glBindTexture(GL_TEXTURE_2D, texture);
-			
 			glBegin(GL_QUADS);
 			
 			glTexCoord2f(blcTex_x, blcTex_y + 0.25f);
@@ -156,6 +158,7 @@ int checkpointInCircle(Circle c, GLfloat x, GLfloat y)
 
 int collisionSquareCircle(Bar bar, Circle circle)
 {
+
 	if ((bar.collisionSquare.Left < circle.x1 && circle.x1 < bar.collisionSquare.Right) &&
 		bar.collisionSquare.Bottom < circle.y1 && circle.y1 < bar.collisionSquare.Top)
 	{
@@ -185,7 +188,11 @@ int collisionSquareCircle(Bar bar, Circle circle)
 		// 우하단
 		if (checkpointInCircle(circle, bar.x + bar.lenght, bar.y))
 			return 3;
+
+		if (bar.x <= circle.x1 && circle.x1 <= bar.x + bar.lenght && bar.y <= circle.y1 && circle.y1 <= bar.y + bar.height)
+			return 4;
 	}
+	
 	return 0;
 }
 
@@ -207,10 +214,6 @@ int collisionSquareCircle2(Block bar, Circle circle)
 		// 위
 		if (bar.y + bar.height < circle.y1 && bar.x < circle.x1 && circle.x1 < bar.x + bar.lenght)
 			return 2;
-	}
-	// 좌상단, 좌하단, 우상단, 우하단에 있는 것을 판단한다.
-	else
-	{
 		// 좌상단
 		if (checkpointInCircle(circle, bar.x, bar.y + bar.height))
 			return 3;
@@ -223,6 +226,8 @@ int collisionSquareCircle2(Block bar, Circle circle)
 		// 우하단
 		if (checkpointInCircle(circle, bar.x + bar.lenght, bar.y))
 			return 3;
+		if (bar.x <= circle.x1 && circle.x1 <= bar.x + bar.lenght && bar.y <= circle.y1 && circle.y1 <= bar.y + bar.height)
+			return 4;
 	}
 	return 0;
 }
@@ -240,19 +245,37 @@ void Bound(Bar bar, Circle* circle)
 		break;
 	case 2:
 		xvecter = xvecter / nor;
-		
+		yvecter = yvecter / nor;
+
 		circle->xDir = xvecter;
 		circle->yDir *= -1.0f;
 
+		if (circle->yDir <= 0)
+			circle->yDir -= AOC;
+		else
+			circle->yDir += AOC;
+
 		printf("circle->xDir = %f\n", xvecter);
+		printf("circle->yDir = %f\n\n", yvecter);
 		break;
 	case 3:
 		xvecter = xvecter / nor;
+		yvecter = yvecter / nor;
 		
 		circle->xDir = xvecter;
 		circle->yDir *= -1.0f;
 
+		if (circle->yDir <= 0)
+			circle->yDir -= AOC;
+		else
+			circle->yDir += AOC;
+
 		printf("circle->xDir = %f\n", xvecter);
+		printf("circle->yDir = %f\n\n", yvecter);
+		break;
+
+	case 4:
+		circle->y1 += bar.height;
 		break;
 	}
 }
@@ -273,6 +296,8 @@ void Bound2(Block* block, Circle* circle)
 		circle->xDir = -circle->xDir;
 		circle->yDir = -circle->yDir;
 		Del(block);
+		break;
+	case 4:
 		break;
 	}
 }
@@ -320,4 +345,26 @@ void Del(Block* block)
 	block->height = NULL;
 	block->lenght = NULL;
 	block->collisionSquare = { NULL,NULL,NULL,NULL };
+}
+
+void backGround(GLuint texture)
+{
+	glEnable(GL_TEXTURE_2D);
+	{
+		glBindTexture(GL_TEXTURE_2D, texture);
+		glBegin(GL_QUADS);
+		glTexCoord2f(0, 0);
+		glVertex2f(-1, 1);
+
+		glTexCoord2f(1, 0);
+		glVertex2f(1, 1);
+		
+		glTexCoord2f(1, 1);
+		glVertex2f(1, -1);
+
+		glTexCoord2f(0, 1);
+		glVertex2f(-1, -1);
+		glEnd();
+	}
+	glDisable(GL_TEXTURE_2D);
 }

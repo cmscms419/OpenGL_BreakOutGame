@@ -156,6 +156,7 @@
   <ItemGroup>
     <Image Include="bitmap4.bmp" />
     <Image Include="bitmap5.bmp" />
+    <Image Include="flowers-g4c0f20116_1920.png" />
     <Image Include="LAND2.BMP" />
     <Image Include="PikPng.bmp" />
     <Image Include="texture1.bmp" />

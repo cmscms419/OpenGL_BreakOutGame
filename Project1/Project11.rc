@@ -13,7 +13,7 @@
 #undef APSTUDIO_READONLY_SYMBOLS
 
 /////////////////////////////////////////////////////////////////////////////
-// í•œêµ­ì–´(ëŒ€í•œë¯¼êµ­) resources
+// ÇÑ±¹¾î(´ëÇÑ¹Î±¹) resources
 
 #if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_KOR)
 LANGUAGE LANG_KOREAN, SUBLANG_DEFAULT
@@ -50,8 +50,6 @@ END
 // Bitmap
 //
 
-
-
 IDB_BITMAP2             BITMAP                  "C:\\Code_Study\\OpenGL\\Project1\\PikPng.bmp"
 
 IDB_BITMAP3             BITMAP                  "LAND2.BMP"
@@ -63,11 +61,19 @@ IDB_BITMAP5             BITMAP                  "c:\\code_study\\opengl\\project
 
 /////////////////////////////////////////////////////////////////////////////
 //
+// PNG
+//
+
+IDB_PNG1                PNG                     "C:\\Code_Study\\OpenGL\\Project1\\flowers-g4c0f20116_1920.png"
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
 // Accelerator
 //
 
 
-#endif    // í•œêµ­ì–´(ëŒ€í•œë¯¼êµ­) resources
+#endif    // ÇÑ±¹¾î(´ëÇÑ¹Î±¹) resources
 /////////////////////////////////////////////////////////////////////////////
 
 

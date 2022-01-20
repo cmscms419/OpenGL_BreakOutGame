@@ -4,23 +4,24 @@
 Circle ball;
 Bar bar;
 Block block[MAX_Y][MAX_X];
+GLuint base;
+
 
 GLubyte* pbytes; // 데이터를 가리킬 포인터
 BITMAPINFO* info; // 비트맵 헤더 저장할 변수
-GLuint texture[3]; // 텍스처의 수
+GLuint texture[4]; // 텍스처의 수
 
 int count = 0;
 
+
 void Display()
 {
-	// 화면과 깊이 버퍼를 지움
-	//glClearColor(1.0, 0.24, 0.5, 0);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT); // 전에 있는 원의 흔적을 지운다.
+	backGround(texture[3]);
 
 	bar.init(texture[2]);
 	ball.init(texture[0]);
 	Block_init(block, MAX_X, MAX_Y, texture[1]);
-	glFlush();
 
 	Bound(bar, &ball);
 	Block_Bound(block, MAX_X, MAX_Y, &ball);
@@ -64,12 +65,12 @@ void MyTimer(int Value) {
 	// 1번쨰 매개변수 : 얼마 후에 타이머를 실행 할 것인지
 	// 2번째 매개변수 : 타이머 이벤트를 발생하기 위해서 호출되어야 할 함수
 	// 3본째 매개변수 : 타이머 이벤트에게 넘겨주고 싶은 파라미터
-	glutTimerFunc(5, MyTimer, NULL);
+	glutTimerFunc(0, MyTimer, NULL);
 }
 
 void initTexture()
 {
-	glGenTextures(3, texture);
+	glGenTextures(4, texture);
 	int width, height, nrChannels;
 	unsigned char* data = stbi_load("bitmap5.bmp", &width, &height, &nrChannels, 0);
 
@@ -80,7 +81,6 @@ void initTexture()
 	glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP);
 
 	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, data);
-
 	stbi_image_free(data);
 
 	data = stbi_load("LAND2.BMP", &width, &height, &nrChannels, 0);
@@ -92,7 +92,6 @@ void initTexture()
 	glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP);
 
 	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, data);
-
 	stbi_image_free(data);
 
 	data = stbi_load("bitmap4.bmp", &width, &height, &nrChannels, 0);
@@ -104,10 +103,23 @@ void initTexture()
 	glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP);
 
 	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, data);
+	stbi_image_free(data);
+
+	data = stbi_load("flowers-g4c0f20116_1920.png", &width, &height, &nrChannels, 0);
+
+	glBindTexture(GL_TEXTURE_2D, texture[3]);
+	glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+	glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+	glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP);
+	glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP);
+
+	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, data);
 
 	glTexEnvi(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
 	stbi_image_free(data);
 }
+
+
 
 int main(int argc, char** argv)
 {
@@ -119,6 +131,7 @@ int main(int argc, char** argv)
 	glutCreateWindow("OpenGL");
 
 	initTexture(); // Texture mapping
+
 	glutDisplayFunc(Display); // 그리기 전달함수 (인수는 그리기메서드)
 	glutReshapeFunc(reshape_func); // 윈도우 크기를 조절할 때, 사용할 함수를 지정한다.
 	glutKeyboardFunc(keyboard); // 키보드 입력
