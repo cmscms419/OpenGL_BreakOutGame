@@ -32,7 +32,13 @@ void Display()
 
 void keyboard(unsigned char key, int x, int y)
 {
-
+	switch (key)
+	{
+	case 'r':
+		ball.x1 = bar.x + bar.lenght * 0.5;
+		ball.y1 = bar.y + bar.height + ball.rad;
+		Block_Reset(block);
+	}
 }
 
 void Special(int key, int x, int y)

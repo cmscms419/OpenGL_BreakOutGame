@@ -337,6 +337,17 @@ void Block_Bound(Block block[][MAX_X], int max_x, int max_y, Circle* ball)
 	blc_y = BLOCK_INI_Y;
 }
 
+void Block_Reset(Block block[][MAX_X])
+{
+	for (int i = 0; i < MAX_Y; i++)
+	{
+		for (int m = 0; m < MAX_X; m++)
+		{
+			block[i][m].stay++;
+		}
+	}
+}
+
 void Del(Block* block)
 {
 	block->stay = NULL;
