@@ -379,3 +379,30 @@ void backGround(GLuint texture)
 	}
 	glDisable(GL_TEXTURE_2D);
 }
+
+void Title(GLuint texture)
+{
+	glEnable(GL_TEXTURE_2D | GL_BLEND);
+	{
+		glBindTexture(GL_TEXTURE_2D, texture);
+		glBegin(GL_QUADS);
+		glTexCoord2f(0, 0);
+		glVertex2f(-0.5, 0.5);
+
+		glTexCoord2f(1, 0);
+		glVertex2f(0.5, 0.5);
+
+		glTexCoord2f(1, 1);
+		glVertex2f(0.5, 0.2);
+
+		glTexCoord2f(0, 1);
+		glVertex2f(-0.5, 0.2);
+		glEnd();
+	}
+	glDisable(GL_TEXTURE_2D | GL_BLEND);
+}
+
+void menu()
+{
+
+}

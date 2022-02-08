@@ -40,22 +40,19 @@
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <Image Include="texture1.bmp">
+    <Image Include="block.BMP">
       <Filter>리소스 파일</Filter>
     </Image>
-    <Image Include="LAND2.BMP">
+    <Image Include="bar_color.bmp">
       <Filter>리소스 파일</Filter>
     </Image>
-    <Image Include="PikPng.bmp">
+    <Image Include="circle_color.bmp">
       <Filter>리소스 파일</Filter>
     </Image>
-    <Image Include="bitmap4.bmp">
+    <Image Include="BackGround.png">
       <Filter>리소스 파일</Filter>
     </Image>
-    <Image Include="bitmap5.bmp">
-      <Filter>리소스 파일</Filter>
-    </Image>
-    <Image Include="flowers-g4c0f20116_1920.png">
+    <Image Include="Title.bmp">
       <Filter>리소스 파일</Filter>
     </Image>
   </ItemGroup>

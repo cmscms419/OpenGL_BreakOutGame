@@ -1,3 +1,5 @@
+#define STB_IMAGE_IMPLEMENTATION 
+
 #include "model.h"
 #include <stb_image.h>
 
@@ -6,10 +8,10 @@ Bar bar;
 Block block[MAX_Y][MAX_X];
 GLuint base;
 
-
 GLubyte* pbytes; // 데이터를 가리킬 포인터
 BITMAPINFO* info; // 비트맵 헤더 저장할 변수
-GLuint texture[4]; // 텍스처의 수
+GLuint texture[5]; // 텍스처의 수
+int k = 1;
 
 int count = 0;
 
@@ -18,14 +20,22 @@ void Display()
 {
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT); // 전에 있는 원의 흔적을 지운다.
 	backGround(texture[3]);
+	
+	switch (k)
+	{
+	case 1:
+		Title(texture[4]);
+		break;
+	case 2:
+		bar.init(texture[2]);
+		ball.init(texture[0]);
+		Block_init(block, MAX_X, MAX_Y, texture[1]);
 
-	bar.init(texture[2]);
-	ball.init(texture[0]);
-	Block_init(block, MAX_X, MAX_Y, texture[1]);
-
-	Bound(bar, &ball);
-	Block_Bound(block, MAX_X, MAX_Y, &ball);
-	ball.Circlemove();
+		Bound(bar, &ball);
+		Block_Bound(block, MAX_X, MAX_Y, &ball);
+		ball.Circlemove();
+		break;
+	}
 
 	glutSwapBuffers();
 }
@@ -76,9 +86,9 @@ void MyTimer(int Value) {
 
 void initTexture()
 {
-	glGenTextures(4, texture);
+	glGenTextures(5, texture);
 	int width, height, nrChannels;
-	unsigned char* data = stbi_load("bitmap5.bmp", &width, &height, &nrChannels, 0);
+	unsigned char* data = stbi_load("circle_color.bmp", &width, &height, &nrChannels, 0);
 
 	glBindTexture(GL_TEXTURE_2D, texture[0]);
 	glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
@@ -89,7 +99,7 @@ void initTexture()
 	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, data);
 	stbi_image_free(data);
 
-	data = stbi_load("LAND2.BMP", &width, &height, &nrChannels, 0);
+	data = stbi_load("block.BMP", &width, &height, &nrChannels, 0);
 
 	glBindTexture(GL_TEXTURE_2D, texture[1]);
 	glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
@@ -100,7 +110,7 @@ void initTexture()
 	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, data);
 	stbi_image_free(data);
 
-	data = stbi_load("bitmap4.bmp", &width, &height, &nrChannels, 0);
+	data = stbi_load("bar_color.bmp", &width, &height, &nrChannels, 0);
 
 	glBindTexture(GL_TEXTURE_2D, texture[2]);
 	glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
@@ -111,7 +121,7 @@ void initTexture()
 	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, data);
 	stbi_image_free(data);
 
-	data = stbi_load("flowers-g4c0f20116_1920.png", &width, &height, &nrChannels, 0);
+	data = stbi_load("BackGround.png", &width, &height, &nrChannels, 0);
 
 	glBindTexture(GL_TEXTURE_2D, texture[3]);
 	glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
@@ -120,12 +130,21 @@ void initTexture()
 	glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP);
 
 	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, data);
+	stbi_image_free(data);
+
+	data = stbi_load("Title.bmp", &width, &height, &nrChannels, 0);
+
+	glBindTexture(GL_TEXTURE_2D, texture[4]);
+	glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+	glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+	glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP);
+	glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP);
+
+	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, data);
+	stbi_image_free(data);
 
 	glTexEnvi(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
-	stbi_image_free(data);
 }
-
-
 
 int main(int argc, char** argv)
 {

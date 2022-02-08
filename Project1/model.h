@@ -1,7 +1,5 @@
 
 #define _CRT_SECURE_NO_WARNINGS 
-#define STB_IMAGE_IMPLEMENTATION
-
 
 #include <iostream>
 #include <Windows.h>
@@ -101,6 +99,7 @@ void Block_Reset(Block block[][MAX_X]);
 // 블록삭제
 void Del(Block *block);
 
-// 연습
-void draw(GLuint texture);
+// 배경 및 메뉴
 void backGround(GLuint texture);
+void Title(GLuint texture);
+void menu();
