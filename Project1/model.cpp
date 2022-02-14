@@ -46,7 +46,7 @@ void Circle::init(GLuint texture)
 	glDisable(GL_TEXTURE_2D);
 }
 
-void Circle::Circlemove()
+int Circle::Circlemove()
 {
 	this->x1 += this->xDir * this->dx;
 	this->y1 += this->yDir * this->dy;
@@ -58,10 +58,17 @@ void Circle::Circlemove()
 		xDir = -xDir;
 	}
 
-	if ((this->y1 - this->rad <= -0.999) || (this->y1 + this->rad >= 0.999))
+	if (this->y1 + this->rad >= 0.999)
 	{
 		yDir = -yDir;
 	}
+
+	if (this->y1 <= -0.999)
+	{
+		return 1;
+	}
+
+	return 2;
 }
 
 void Bar::init(GLuint texture)
@@ -382,7 +389,7 @@ void backGround(GLuint texture)
 
 void Title(GLuint texture)
 {
-	glEnable(GL_TEXTURE_2D | GL_BLEND);
+	glEnable(GL_TEXTURE_2D);
 	{
 		glBindTexture(GL_TEXTURE_2D, texture);
 		glBegin(GL_QUADS);
@@ -399,7 +406,7 @@ void Title(GLuint texture)
 		glVertex2f(-0.5, 0.2);
 		glEnd();
 	}
-	glDisable(GL_TEXTURE_2D | GL_BLEND);
+	glDisable(GL_TEXTURE_2D);
 }
 
 void menu()

@@ -33,7 +33,7 @@ public:
 	float angle{};
 
 	void init(GLuint texture);
-	void Circlemove();
+	int Circlemove();
 
 	Circle() {
 		this->x1 = 0.0f;

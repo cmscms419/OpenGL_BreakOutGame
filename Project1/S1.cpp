@@ -11,9 +11,8 @@ GLuint base;
 GLubyte* pbytes; // 데이터를 가리킬 포인터
 BITMAPINFO* info; // 비트맵 헤더 저장할 변수
 GLuint texture[5]; // 텍스처의 수
-int k = 1;
 
-int count = 0;
+int keys = 2;
 
 
 void Display()
@@ -21,7 +20,7 @@ void Display()
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT); // 전에 있는 원의 흔적을 지운다.
 	backGround(texture[3]);
 	
-	switch (k)
+	switch (keys)
 	{
 	case 1:
 		Title(texture[4]);
@@ -33,7 +32,7 @@ void Display()
 
 		Bound(bar, &ball);
 		Block_Bound(block, MAX_X, MAX_Y, &ball);
-		ball.Circlemove();
+		keys = ball.Circlemove();
 		break;
 	}
 
