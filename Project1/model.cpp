@@ -1,13 +1,5 @@
 #include "model.h"
 
-
-// Bar
-static GLfloat bar_x = -0.5f, bar_y = -1.0f; // bar의 초기 위치
-static GLfloat bDir = 1.0f; // bar의 방향
-static GLfloat Blenght = 0.3f;	// bar의 크기
-static GLfloat BARSPEED = 0.05f;	// bar의 스피드
-static GLfloat Bheight = 0.05f;	// bar의 크기
-
 // Block
 static GLfloat blc_x = BLOCK_INI_X;
 static GLfloat blc_y = BLOCK_INI_Y;
@@ -17,14 +9,6 @@ static GLfloat blc_h = 0.1f;
 
 static GLfloat blcTex_x = 0.0f;
 static GLfloat blcTex_y = 0.0f;
-
-//Color
-static GLfloat r;
-static GLfloat g;
-static GLfloat b;
-
-static GLuint base;
-
 
 void Circle::init(GLuint texture)
 {
@@ -104,10 +88,10 @@ void Bar::Barmove(int key)
 	switch (key)
 	{
 	case GLUT_KEY_RIGHT:
-		this->x += bDir * BARSPEED;
+		this->x += 1.0f * 0.025f;
 		break;
 	case GLUT_KEY_LEFT:
-		this->x -= bDir * BARSPEED;
+		this->x -= 1.0f * 0.025f;
 		break;
 	}
 }
@@ -263,7 +247,7 @@ void Bound(Bar bar, Circle* circle)
 			circle->yDir += AOC;
 
 		printf("circle->xDir = %f\n", xvecter);
-		printf("circle->yDir = %f\n\n", yvecter);
+		printf("circle->yDir = %f\n", yvecter);
 		break;
 	case 3:
 		xvecter = xvecter / nor;
@@ -390,6 +374,8 @@ void backGround(GLuint texture)
 void Title(GLuint texture)
 {
 	glEnable(GL_TEXTURE_2D);
+	glEnable(GL_BLEND);
+	glBlendFunc(GL_ONE, GL_ZERO);
 	{
 		glBindTexture(GL_TEXTURE_2D, texture);
 		glBegin(GL_QUADS);
@@ -407,6 +393,7 @@ void Title(GLuint texture)
 		glEnd();
 	}
 	glDisable(GL_TEXTURE_2D);
+	glDisable(GL_BLEND);
 }
 
 void menu()

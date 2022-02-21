@@ -1,4 +1,3 @@
-
 #define _CRT_SECURE_NO_WARNINGS 
 
 #include <iostream>
@@ -47,7 +46,7 @@ public:
 	~Circle() {};
 };
 
-class Bar 
+class Bar
 {
 public:
 	GLfloat x{}, y{};
@@ -88,16 +87,16 @@ public:
 // 충돌 감지
 int collisionSquareCircle(Bar bar, Circle circle);
 int collisionSquareCircle2(Block bar, Circle circle);
-void Bound(Bar bar, Circle *circle);
-void Bound2(Block *block, Circle *circle);
-void Block_Bound(Block block[][MAX_X], int max_x, int max_y, Circle *ball);
+void Bound(Bar bar, Circle* circle);
+void Bound2(Block* block, Circle* circle);
+void Block_Bound(Block block[][MAX_X], int max_x, int max_y, Circle* ball);
 
 // 블록 생성
 void Block_init(Block block[][MAX_X], int max_x, int max_y, GLuint texture);
 void Block_Reset(Block block[][MAX_X]);
 
 // 블록삭제
-void Del(Block *block);
+void Del(Block* block);
 
 // 배경 및 메뉴
 void backGround(GLuint texture);

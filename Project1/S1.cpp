@@ -9,11 +9,9 @@ Block block[MAX_Y][MAX_X];
 GLuint base;
 
 GLubyte* pbytes; // 데이터를 가리킬 포인터
-BITMAPINFO* info; // 비트맵 헤더 저장할 변수
 GLuint texture[5]; // 텍스처의 수
 
-int keys = 2;
-
+int keys = 1;
 
 void Display()
 {
@@ -47,6 +45,7 @@ void keyboard(unsigned char key, int x, int y)
 		ball.x1 = bar.x + bar.lenght * 0.5;
 		ball.y1 = bar.y + bar.height + ball.rad;
 		Block_Reset(block);
+		keys = 2;
 	}
 }
 
@@ -80,7 +79,7 @@ void MyTimer(int Value) {
 	// 1번쨰 매개변수 : 얼마 후에 타이머를 실행 할 것인지
 	// 2번째 매개변수 : 타이머 이벤트를 발생하기 위해서 호출되어야 할 함수
 	// 3본째 매개변수 : 타이머 이벤트에게 넘겨주고 싶은 파라미터
-	glutTimerFunc(0, MyTimer, NULL);
+	glutTimerFunc(0.001, MyTimer, NULL);
 }
 
 void initTexture()
@@ -92,8 +91,6 @@ void initTexture()
 	glBindTexture(GL_TEXTURE_2D, texture[0]);
 	glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
 	glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
-	glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP);
-	glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP);
 
 	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, data);
 	stbi_image_free(data);
@@ -103,8 +100,6 @@ void initTexture()
 	glBindTexture(GL_TEXTURE_2D, texture[1]);
 	glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
 	glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
-	glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP);
-	glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP);
 
 	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, data);
 	stbi_image_free(data);
@@ -114,8 +109,6 @@ void initTexture()
 	glBindTexture(GL_TEXTURE_2D, texture[2]);
 	glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
 	glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
-	glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP);
-	glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP);
 
 	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, data);
 	stbi_image_free(data);
@@ -125,8 +118,6 @@ void initTexture()
 	glBindTexture(GL_TEXTURE_2D, texture[3]);
 	glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
 	glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
-	glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP);
-	glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP);
 
 	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, data);
 	stbi_image_free(data);
@@ -136,10 +127,8 @@ void initTexture()
 	glBindTexture(GL_TEXTURE_2D, texture[4]);
 	glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
 	glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
-	glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP);
-	glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP);
 
-	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, data);
+	glTexImage2D(GL_TEXTURE_2D, 0, STBI_rgb_alpha, width, height, 0, STBI_rgb_alpha, GL_UNSIGNED_BYTE, data);
 	stbi_image_free(data);
 
 	glTexEnvi(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
