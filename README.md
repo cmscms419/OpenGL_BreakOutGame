@@ -11,6 +11,7 @@
 
 
 {% include video id="DQ16YQYoCec" provider="youtube" %}
+<iframe width="956" height="538" src="https://www.youtube.com/watch?v=DQ16YQYoCec" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
 
 
 <img width="80%" src= "https://user-images.githubusercontent.com/72899627/150301166-c59c8663-73cd-4deb-9807-d3cf4d898a97.PNG"/>
