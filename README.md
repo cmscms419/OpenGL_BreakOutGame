@@ -9,6 +9,8 @@
 ## 게임의 엉성한 부분
 ### 벽돌부시기 게임이지만, 공이 밑으로 내려가지는 않습니다.
 
-https://youtu.be/DQ16YQYoCec
+
+{% include video id="DQ16YQYoCec" provider="youtube" %}
+
 
 <img width="80%" src= "https://user-images.githubusercontent.com/72899627/150301166-c59c8663-73cd-4deb-9807-d3cf4d898a97.PNG"/>
