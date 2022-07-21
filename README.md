@@ -8,4 +8,5 @@
 ### r(소문자) : 재시작을 할 수 있습니다.
 ## 게임의 엉성한 부분
 ### 벽돌부시기 게임이지만, 공이 밑으로 내려가지는 않습니다.
-<img width="80%" src= "https://user-images.githubusercontent.com/72899627/150301166-c59c8663-73cd-4deb-9807-d3cf4d898a97.PNG"/>
+
+[![Video Label](http://img.youtube.com/vi/DQ16YQYoCec/0.jpg)](https://youtu.be/DQ16YQYoCec)
